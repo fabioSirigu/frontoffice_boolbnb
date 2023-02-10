@@ -40,7 +40,6 @@ export default {
 }
 
 .header_wrapper {
-    position: fixed;
     width: 100%;
 }
 </style>
