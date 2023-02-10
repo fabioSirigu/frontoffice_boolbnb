@@ -30,8 +30,8 @@ export default {
                                     Il mio BoolBnb
                                 </button>
                                 <div class="dropdown-menu dropdown_user">
-                                    <a class="dropdown-item dropdown_user_item" href="#">Login</a>
-                                    <a class="dropdown-item dropdown_user_item" href="#">Registrati ora</a>
+                                    <a class="dropdown-item dropdown_user_item" href="http://127.0.0.1:8000/login">Login</a>
+                                    <a class="dropdown-item dropdown_user_item" href="http://127.0.0.1:8000/register">Registrati ora</a>
                                 </div>
                             </div>
                         </div>
@@ -57,7 +57,6 @@ export default {
 }
 
 .header_wrapper {
-    width: 100%;
     border-bottom: 1px solid rgba(0, 0, 0, 0.099);
 }
 

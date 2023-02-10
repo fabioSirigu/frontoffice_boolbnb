@@ -5,31 +5,45 @@ export default {
 </script>
 
 <template>
-    <footer>
-        <div class="footer_contacts d-flex justify-content-between p-4">
-            <div class="contacts">
-                <a href="/">&copy; 2023 Boolbnb, Inc.</a> ·
-                <a href="/">Privacy</a> ·
-                <a href="/">Termini</a> ·
-                <a href="/">Mappa del sito</a> ·
-                <a href="/">Dettagli dell'azienda</a> ·
-                <a href="/">Destinazioni</a>
-            </div>
-            <div class="languages">
-                <a href="/">Italiano (IT)</a> ·
-                <a href="/">€ EUR</a> ·
-                <a href="/">Supporto e risorse</a>
+<div class="footer_wrapper p-4">
+    <div class="footer_elements">
+        <div class="row justify-content-center">
+            <div class="col-12 left">
+                <div class="contacts_elements d-flex justify-content-center flex-column align-items-center">
+                    <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12 d-flex justify-content-center">
+                        <p class="p-0 m-0">
+                           <strong>
+                                &copy; 2023 Boolbnb, Inc.
+                           </strong>
+                        </p>
+                    </div>
+                    <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12 d-flex justify-content-center gap-3 mt-3">
+                        <a href="/">Privacy</a>
+                        <a href="/">Terms</a>
+                        <a href="/">Map of the Site</a>
+                        <a href="/">Details of the Company</a>
+                        <a href="/">Destinations</a>
+                    </div>
+                </div>
             </div>
         </div>
-    </footer>
-
+    </div>
+</div>
 </template>
 
 <style lang="scss" scoped>
-.footer_contacts {
+.footer_wrapper {
+    border-top: 1px solid rgba(0, 0, 0, 0.099);
+}
+.contacts_elements {
     a {
         text-decoration: none;
         color: black;
+    }
+
+    a:hover {
+        transition: 0.4s;
+        color: #FF5A5F;
     }
 }
 </style>

@@ -15,7 +15,7 @@ export default {
 
             </div>
         </div>
-        <div class="homes_wrapper vh-100">
+        <div class="homes_wrapper">
             <SingleHomeContent></SingleHomeContent>
         </div>
     </div>
