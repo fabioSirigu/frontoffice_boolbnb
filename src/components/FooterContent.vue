@@ -20,9 +20,7 @@ export default {
                     <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12 d-flex justify-content-center gap-3 mt-3">
                         <a href="/">Privacy</a>
                         <a href="/">Terms</a>
-                        <a href="/">Map of the Site</a>
-                        <a href="/">Details of the Company</a>
-                        <a href="/">Destinations</a>
+                        <a href="/">Site Map</a>
                     </div>
                 </div>
             </div>
