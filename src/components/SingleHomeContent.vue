@@ -2,7 +2,7 @@
 import axios from 'axios'
 
 export default {
-    'name' : 'Single Home Content',
+    'name': 'Single Home Content',
     data() {
         return {
             api_url: "http://127.0.0.1:8000",
@@ -14,13 +14,13 @@ export default {
         getHomes(url) {
             axios.get(url)
                 .then(response => {
-                console.log(response.data);
-                this.homes = response.data;
-            })
+                    console.log(response.data);
+                    this.homes = response.data;
+                })
                 .catch(error => {
-                console.error(error);
-                this.error = error.message;
-            });
+                    console.error(error);
+                    this.error = error.message;
+                });
         },
         imageConverter(way) {
             console.log(way);
@@ -37,22 +37,26 @@ export default {
 </script>
 
 <template>
-<div class="row justify-content-around align-items-center">
-    <div class="col-12 col-sm-12 col-md-4 col-lg-2 col-xl-2 col-xxl-2 text-center" v-for="home in homes.data">
+    <div class="row justify-content-around align-items-center">
+        <div class="col-12 col-sm-12 col-md-6 col-lg-2 col-xl-2 col-xxl-2 text-center" v-for="home in homes.data">
             <img class="home_image" :src="imageConverter(home.cover_image)">
-            <div class="card-body d-flex justify-content-center mt-2">
+            <div class="card-body justify-content-center mt-2">
                 <h5 class="card-title text-center">
                     {{ home.title }}
                 </h5>
+
+                <p class="card-description text-center">
+                    {{ home.address }}
+                </p>
             </div>
+        </div>
     </div>
-</div>
 </template>
 
 <style lang="scss" scoped>
 .home_image {
-    width: 300px;
-    height: 300px;
+    width: 350px;
+    height: 350px;
     aspect-ratio: 1/1;
     border-radius: 25px;
 }
