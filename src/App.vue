@@ -1,9 +1,9 @@
 <script setup>
-import HelloWorld from './components/HelloWorld.vue'
+import HeaderContent from './components/HeaderContent.vue'
 </script>
 
 <template>
-  <HelloWorld></HelloWorld>
+  <HeaderContent></HeaderContent>
 </template>
 
 <style scoped>
