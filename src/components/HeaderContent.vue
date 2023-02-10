@@ -79,8 +79,8 @@ export default {
 
 .affitta_header {
     display: inline-block;
-    color: rgb(0, 0, 0);
-    background-color: #ffffff;
+    color: rgb(255, 255, 255);
+    background-color: #000000;
     padding: 10px;
     text-decoration: none;
     border-radius: 20px;
@@ -90,8 +90,8 @@ export default {
 
 .affitta_header:hover {
     transition: 0.4s;
-    color: #000000;
-    background-color: rgba(205, 205, 205, 0.173);
+    color: #FF5A5F;
+    background-color: rgba(255, 255, 255, 0.173);
 }
 
 .user_header {
