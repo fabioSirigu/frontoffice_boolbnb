@@ -27,7 +27,7 @@ export default {
             if (way) {
                 return this.api_url + "/storage/" + way;
             }
-            return "https://upload.wikimedia.org/wikipedia/commons/c/cd/Immagine_non_disponibile.JPG";
+            return "https://htmlcolors.com/brand-image/airbnb.png";
         }
     },
     mounted() {
@@ -37,19 +37,23 @@ export default {
 </script>
 
 <template>
-<div class="row justify-content-between align-items-center">
-    <div class="col-12 col-sm-12 col-md-12 col-lg-4 col-xl-3 col-xxl-3 m-2 p-0" v-for="home in homes">
-        <div class="card_minimal_wrapper">
-        <img :src="imageConverter(home.cover_image)" alt="{{ home.title }}">
-            <div class="card_minimal_elements d-flex justify-content-center flex-column text-white">
-                <h5 class="card-title">
-                    <strong>{{ home.title }}</strong>
+<div class="row justify-content-around align-items-center">
+    <div class="col-12 col-sm-12 col-md-4 col-lg-4 col-xl-4 col-xxl-4 text-center" v-for="home in homes.data">
+            <img class="home_image" :src="imageConverter(home.cover_image)">
+            <div class="card-body d-flex justify-content-center py-3">
+                <h5 class="card-title text-center">
+                    {{ home.title }}
                 </h5>
             </div>
-        </div>
     </div>
 </div>
 </template>
 
 <style lang="scss" scoped>
+.home_image {
+    width: 300px;
+    height: 300px;
+    aspect-ratio: 1/1;
+    border-radius: 25px;
+}
 </style>
