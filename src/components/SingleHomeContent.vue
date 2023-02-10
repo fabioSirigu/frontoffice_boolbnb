@@ -38,9 +38,9 @@ export default {
 
 <template>
 <div class="row justify-content-around align-items-center">
-    <div class="col-12 col-sm-12 col-md-4 col-lg-4 col-xl-4 col-xxl-4 text-center" v-for="home in homes.data">
+    <div class="col-12 col-sm-12 col-md-4 col-lg-2 col-xl-2 col-xxl-2 text-center" v-for="home in homes.data">
             <img class="home_image" :src="imageConverter(home.cover_image)">
-            <div class="card-body d-flex justify-content-center py-3">
+            <div class="card-body d-flex justify-content-center mt-2">
                 <h5 class="card-title text-center">
                     {{ home.title }}
                 </h5>
