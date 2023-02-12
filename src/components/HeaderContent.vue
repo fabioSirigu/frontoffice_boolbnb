@@ -1,6 +1,24 @@
 <script>
 export default {
   name: "Header Content",
+  data() {
+    return {
+        api_url: "http://127.0.0.1:8000",
+    }
+  },
+  methods : {
+    searchHomes(url) {
+        axios.get(url)
+            .then(response => {
+                console.log(response.data);
+                this.homes = response.data;
+            })
+            .catch(error => {
+                console.error(error);
+                this.error = error.message;
+            });
+    },
+  }
 };
 </script>
 
@@ -26,7 +44,7 @@ export default {
               type="text"
               placeholder="Dove ti porto?"
             />
-            <a class="search_button" type="submit"
+            <a class="search_button" @click="searchHomes(api_url)"
               ><span><i class="fa-solid fa-magnifying-glass px-2"></i></span
               >Ricerca</a
             >

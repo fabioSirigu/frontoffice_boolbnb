@@ -11,7 +11,7 @@ export default {
             <div class="col-12 left">
                 <div class="contacts_elements d-flex justify-content-center flex-column align-items-center">
                     <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12 d-flex justify-content-center">
-                        <p class="p-0 m-0">
+                        <p class="p-0 m-0 bold">
                            <strong>
                                 &copy; 2023 Boolbnb, Inc.
                            </strong>
