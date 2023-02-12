@@ -1,5 +1,34 @@
 @use '../../../node_modules/bootstrap/scss/bootstrap.scss';
 
+/*Fonts*/
+
+@font-face {
+    font-family: 'Cereal Black';
+    src:  url('../fonts/AirbnbCereal_W_Blk.otf');
+}
+
+@font-face {
+    font-family: 'Cereal Bold';
+    src:  url('../fonts/AirbnbCereal_W_Bd.otf');
+}
+
+@font-face {
+    font-family: 'Cereal';
+    src:  url('../fonts/AirbnbCereal_W_Lt.otf');
+}
+
+.black {
+    font-family: 'Cereal Black';
+}
+
+.bold {
+    font-family: 'Cereal Bold';
+}
+
+body {
+    font-family: 'Cereal';
+}
+
 @media (max-width: 576px) {
     .search_button {
         font-size: 13px;
@@ -13,7 +42,9 @@
         padding-top: 25px;
     }
 
-
+    .main_title {
+        font-size: 20px;
+    }
 }
 
 @media (max-width: 768px) {
@@ -27,6 +58,36 @@
 
     .right {
         padding-top: 25px;
+    }
+
+    .main_title {
+        font-size: 20px;
+    }
+}
+
+@media (max-width: 992px) {
+    .search_button {
+        font-size: 13px;
+    }
+
+    .center {
+        padding-top: 25px;
+    }
+
+    .right {
+        padding-top: 25px;
+    }
+
+    .header_elements {
+        display: flex;
+        align-items: center;
+    }
+
+}
+
+@media (max-width: 1200px) {
+    .search_button {
+        font-size: 13px;
     }
 
 

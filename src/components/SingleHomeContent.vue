@@ -8,6 +8,7 @@ export default {
             api_url: "http://127.0.0.1:8000",
             homes: {},
             error: "",
+            max: 30
         };
     },
     methods: {
@@ -28,6 +29,12 @@ export default {
                 return this.api_url + "/storage/" + way;
             }
             return "https://htmlcolors.com/brand-image/airbnb.png";
+        },
+        trimBody(text) {
+        if (text.length > this.max) {
+            return text.slice(0, this.max) + '...'
+        }
+        return text
         }
     },
     mounted() {
@@ -37,26 +44,27 @@ export default {
 </script>
 
 <template>
-    <div class="row justify-content-around align-items-center">
-        <div class="col-12 col-sm-12 col-md-6 col-lg-2 col-xl-2 col-xxl-2 text-center" v-for="home in homes.data">
-            <img class="home_image" :src="imageConverter(home.cover_image)">
-            <div class="card-body justify-content-center mt-2">
-                <h5 class="card-title text-center">
-                    {{ home.title }}
-                </h5>
-
-                <p class="card-description text-center">
-                    {{ home.address }}
-                </p>
+    <div class="row align-items-center align-content-start">
+        <div class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 col-xxl-3 text-center " v-for="home in homes.data">
+            <div class="single_home_contents p-2">
+                <img class="home_image" :src="imageConverter(home.cover_image)">
+                <div class="card-body justify-content-center mt-2">
+                    <h5 class="card_title bold card-title text-center py-3">
+                        {{ trimBody(home.title) }}
+                    </h5>
+                </div>
             </div>
         </div>
     </div>
 </template>
 
 <style lang="scss" scoped>
+.card_title {
+    font-size: 15px;
+}
 .home_image {
-    width: 350px;
-    height: 350px;
+    width: 300px;
+    height: 300px;
     aspect-ratio: 1/1;
     border-radius: 25px;
 }
