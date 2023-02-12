@@ -1,22 +1,31 @@
 <script>
+import axios from 'axios'
+
 export default {
   name: "Header Content",
   data() {
     return {
         api_url: "http://127.0.0.1:8000",
+        api_key: "1W1nNbKly7WXl6NvYnr7983RJJawL26E",
+        query: ""
     }
   },
   methods : {
-    searchHomes(url) {
-        axios.get(url)
-            .then(response => {
-                console.log(response.data);
-                this.homes = response.data;
-            })
-            .catch(error => {
-                console.error(error);
-                this.error = error.message;
-            });
+    searchHomes() {
+        if (this.query.length > 3) {
+            axios.get('https://api.tomtom.com/search/2/search/' + this.query + '.json?key=' + this.api_key)
+        .then(response => {
+            // recupera la latitudine e la longitudine dalla risposta
+            const lat = response.data.results[0].position.lat;
+            const lon = response.data.results[0].position.lon;
+            console.log(lat);
+            console.log(lon);
+            // utilizza queste coordinate per effettuare la ricerca delle case nel db
+        })
+        .catch(error => {
+            console.error(error);
+        });
+        }
     },
   }
 };
@@ -39,12 +48,9 @@ export default {
           <div
             class="search_wrapper d-flex justify-content-center align-items-center gap-3"
           >
-            <input
-              class="search_header"
-              type="text"
-              placeholder="Dove ti porto?"
+            <input class="search_header" type="text" placeholder="Dove ti porto?" v-model="query" @keyup="searchHomes()"
             />
-            <a class="search_button" @click="searchHomes(api_url)"
+            <a class="search_button"
               ><span><i class="fa-solid fa-magnifying-glass px-2"></i></span
               >Ricerca</a
             >
