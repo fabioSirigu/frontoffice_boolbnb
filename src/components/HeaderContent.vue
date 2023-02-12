@@ -5,9 +5,12 @@ export default {
   name: "Header Content",
   data() {
     return {
+    api_url: "http://127.0.0.1:8000",
       query: '',
       latitude: '',
-      longitude: ''
+      longitude: '',
+      homes: [],
+      filteredHomes: []
     };
   },
   methods: {
@@ -23,7 +26,18 @@ export default {
           this.longitude = data.results[0].position.lon;
           console.log(this.latitude)
           console.log(this.longitude)
+
+          // Recupera le case tramite la chiamata API al backend
+          const homesResponse = await axios.get(this.api_url + '/api/homes/filter', {
+              params: {
+                latitude: this.latitude,
+                longitude: this.longitude
+              }
+          });
+  
+          console.log(this.homes = homesResponse.data);
         }
+        
     }
     }
   }
