@@ -5,28 +5,27 @@ export default {
   name: "Header Content",
   data() {
     return {
-        api_url: "http://127.0.0.1:8000",
-        api_key: "1W1nNbKly7WXl6NvYnr7983RJJawL26E",
-        query: ""
-    }
+      query: '',
+      latitude: '',
+      longitude: ''
+    };
   },
-  methods : {
-    searchHomes() {
-        if (this.query.length > 3) {
-            axios.get('https://api.tomtom.com/search/2/search/' + this.query + '.json?key=' + this.api_key)
-        .then(response => {
-            // recupera la latitudine e la longitudine dalla risposta
-            const lat = response.data.results[0].position.lat;
-            const lon = response.data.results[0].position.lon;
-            console.log(lat);
-            console.log(lon);
-            // utilizza queste coordinate per effettuare la ricerca delle case nel db
-        })
-        .catch(error => {
-            console.error(error);
-        });
+  methods: {
+    async searchHomes() {
+    if (this.query.length >= 3) {
+        const tomtomApiKey = '1W1nNbKly7WXl6NvYnr7983RJJawL26E';
+        const response = await axios.get(
+          `https://api.tomtom.com/search/2/geocode/${this.query}.JSON?key=${tomtomApiKey}`
+        );
+        const data = response.data;
+        if (data.results.length > 0) {
+          this.latitude = data.results[0].position.lat;
+          this.longitude = data.results[0].position.lon;
+          console.log(this.latitude)
+          console.log(this.longitude)
         }
-    },
+    }
+    }
   }
 };
 </script>
