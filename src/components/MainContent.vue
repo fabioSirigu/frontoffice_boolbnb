@@ -27,7 +27,7 @@ export default {
     data() {
         return {
             api_url: "http://127.0.0.1:8000",
-            loading: false,
+            loading : false,
             max: 30,
         }
     }
@@ -55,7 +55,7 @@ export default {
             <div class="search_wrapper">
                 <div class="search_elements">
                     <div class="row align-items-center align-content-start">
-                        <div v-if="!loading && filteredHomes.length === 0">
+                        <!-- <div>
                             <div class="alert alert-danger alert-dismissible fade show d-flex justify-content-between align-items-center"
                                 role="alert">
                                 <p class="p-0 m-0">
@@ -66,8 +66,8 @@ export default {
                                     <span aria-hidden="true">&times;</span>
                                 </button>
                             </div>
-                        </div>
-                        <div class="row align-items-center align-content-start" v-else>
+                        </div> -->
+                        <div class="row align-items-center align-content-start">
                             <div class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 col-xxl-3 text-center "
                                 v-for="home in filteredHomes">
                                 <div class="single_home_contents p-2">

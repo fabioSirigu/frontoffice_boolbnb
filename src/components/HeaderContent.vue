@@ -13,6 +13,7 @@ export default {
         filteredHomes: [],
         authenticated: false,
         loading : false,
+        showError: false,
         name: ''
     };
   },
@@ -32,6 +33,7 @@ export default {
             }
 
             // Recupera le case tramite la chiamata API al backend
+            
             try {
             const homesResponse = await axios.get(
                 'http://127.0.0.1:8000/api/homes/' +
@@ -42,9 +44,7 @@ export default {
                 this.radius
             );
             console.log(this.filteredhomes = homesResponse.data.data);
-            this.loading = true
-            this.$emit('search-homes-completed', homesResponse.data.data);
-
+            this.$emit('search-homes-completed', homesResponse.data.data, this.loading = false);
             } catch (error) {
             console.error(error);
             }
