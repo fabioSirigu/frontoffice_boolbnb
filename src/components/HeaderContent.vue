@@ -49,7 +49,7 @@ export default {
             console.error(error);
             }
         }
-        }
+    }
   },
   mounted() {
     axios.get(this.api_url + '/api/user')
@@ -67,8 +67,8 @@ export default {
 </script>
 
 <template>
-  <div class="header_wrapper p-4">
-    <div class="header_elements">
+  <div class="header_wrapper">
+    <div class="header_elements p-4">
       <div class="row justify-content-around align-items-center">
         <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-4 col-xxl-4 left d-flex justify-content-center justify-content-sm-center justify-content-md-center justify-content-lg-center justify-content-xl-start justify-content-xxl-start left">
           <div class="logo_wrapper px-5">
