@@ -15,7 +15,7 @@ export default {
   },
   methods: {
     async searchHomes() {
-        if (this.query.length >= 5) {
+        if (this.query.length >= 0) {
             const tomtomApiKey = '1W1nNbKly7WXl6NvYnr7983RJJawL26E';
             const response = await axios.get(
             `https://api.tomtom.com/search/2/geocode/${this.query}.JSON?key=${tomtomApiKey}`
