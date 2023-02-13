@@ -54,7 +54,8 @@ export default {
                         <h5 class="card_title bold card-title text-center py-3">
                             {{ trimBody(home.title) }}
                         </h5>
-                        <router-link :to="{ name: 'single-home', params: { slug: homeSlug } }">Clicca qui</router-link>
+                        <router-link :to="{ name: 'single-home', params: { slug: home.slug } }">Leggi di
+                            più</router-link>
                     </div>
                 </div>
             </div>

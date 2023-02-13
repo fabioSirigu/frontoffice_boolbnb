@@ -6,16 +6,16 @@ const router = createRouter({
     history: createWebHistory(),
     routes: [
         {
-        path: '/',
-        name : 'home',
-        component: HomeView
+            path: '/homes',
+            name: 'homes',
+            component: HomeView
         },
         {
-        path: '/homes/:slug',
-        name : 'single-home',
-        component: SingleHomeView
+            path: '/homes/:slug',
+            name: 'single-home',
+            component: SingleHomeView
         },
-]
+    ]
 })
 
 export { router }
