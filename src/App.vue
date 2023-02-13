@@ -4,13 +4,13 @@ import FooterContent from './components/FooterContent.vue'
 import MainContent from './components/MainContent.vue'
 
 export default {
-  name : 'BoolBnb App',
-  components : {
+  name: 'BoolBnb App',
+  components: {
     HeaderContent,
     MainContent,
     FooterContent
   },
-  data () {
+  data() {
     return {
       filteredHomes: []
     }
@@ -25,7 +25,7 @@ export default {
 
 <template>
   <HeaderContent @search-homes-completed="searchHomesCompleted"></HeaderContent>
-  <MainContent :filteredHomes="filteredHomes"></MainContent>
+  <router-view :filteredHomes="filteredHomes"></router-view>
   <FooterContent></FooterContent>
 </template>
 

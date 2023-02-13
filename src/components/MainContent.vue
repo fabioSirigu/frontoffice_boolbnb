@@ -2,7 +2,7 @@
 import SingleHomeContent from '../components/SingleHomeContent.vue';
 
 export default {
-    "name": "Main Content",
+    name: "MainContent",
     components: {
         SingleHomeContent
     },
@@ -27,7 +27,7 @@ export default {
     data() {
         return {
             api_url: "http://127.0.0.1:8000",
-            loading : false,
+            loading: false,
             max: 30,
         }
     }
