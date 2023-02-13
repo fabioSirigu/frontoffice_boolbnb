@@ -5,41 +5,45 @@ export default {
   name: "Header Content",
   data() {
     return {
-    api_url: "http://127.0.0.1:8000",
-      query: '',
-      latitude: '',
-      longitude: '',
-      homes: [],
-      filteredHomes: []
+        api_url: "http://127.0.0.1:8000",
+        query: '',
+        latitude: '',
+        longitude: '',
+        radius: 20,
+        filteredHomes: []
     };
   },
   methods: {
     async searchHomes() {
-    if (this.query.length >= 3) {
-        const tomtomApiKey = '1W1nNbKly7WXl6NvYnr7983RJJawL26E';
-        const response = await axios.get(
-          `https://api.tomtom.com/search/2/geocode/${this.query}.JSON?key=${tomtomApiKey}`
-        );
-        const data = response.data;
-        if (data.results.length > 0) {
-          this.latitude = data.results[0].position.lat;
-          this.longitude = data.results[0].position.lon;
-          console.log(this.latitude)
-          console.log(this.longitude)
+        if (this.query.length >= 5) {
+            const tomtomApiKey = '1W1nNbKly7WXl6NvYnr7983RJJawL26E';
+            const response = await axios.get(
+            `https://api.tomtom.com/search/2/geocode/${this.query}.JSON?key=${tomtomApiKey}`
+            );
+            const data = response.data;
+            if (data.results.length > 0) {
+            this.latitude = data.results[0].position.lat;
+            this.longitude = data.results[0].position.lon;
+            console.log(this.latitude);
+            console.log(this.longitude);
+            }
 
-          // Recupera le case tramite la chiamata API al backend
-          const homesResponse = await axios.get(this.api_url + '/api/homes/filter', {
-              params: {
-                latitude: this.latitude,
-                longitude: this.longitude
-              }
-          });
-  
-          console.log(this.homes = homesResponse.data);
+            // Recupera le case tramite la chiamata API al backend
+            try {
+            const homesResponse = await axios.get(
+                'http://127.0.0.1:8000/api/homes/' +
+                this.latitude +
+                '/' +
+                this.longitude +
+                '/' +
+                this.radius
+            );
+            console.log(this.filteredhomes = homesResponse.data.data);
+            } catch (error) {
+            console.error(error);
+            }
         }
-        
-    }
-    }
+        }
   }
 };
 </script>
@@ -61,9 +65,9 @@ export default {
           <div
             class="search_wrapper d-flex justify-content-center align-items-center gap-3"
           >
-            <input class="search_header" type="text" placeholder="Dove ti porto?" v-model="query" @keyup="searchHomes()"
+            <input class="search_header" type="text" placeholder="Dimmi una Città o un Indirizzo.." v-model="query" @keyup.enter="searchHomes()"
             />
-            <a class="search_button"
+            <a class="search_button" @click="searchHomes()"
               ><span><i class="fa-solid fa-magnifying-glass px-2"></i></span
               >Ricerca</a
             >
