@@ -60,7 +60,7 @@ export default {
     </div>
 </template>
 
-<style lang="scss" scoped>
+<style lang="scss">
 .card_title {
     font-size: 15px;
 }

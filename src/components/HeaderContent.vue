@@ -39,6 +39,7 @@ export default {
                 this.radius
             );
             console.log(this.filteredhomes = homesResponse.data.data);
+            this.$emit('search-homes-completed', homesResponse.data.data);
             } catch (error) {
             console.error(error);
             }

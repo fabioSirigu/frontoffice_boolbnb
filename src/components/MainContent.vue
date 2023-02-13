@@ -3,7 +3,27 @@ import SingleHomeContent from '../components/SingleHomeContent.vue';
 
 export default {
     "name": "Main Content",
-    components: { SingleHomeContent }
+    components: {
+        SingleHomeContent
+    },
+    props: [
+        'filteredHomes'
+    ],
+    methods : {
+        imageConverter(way) {
+            console.log(way);
+            if (way) {
+                return this.api_url + "/storage/" + way;
+            }
+            return "https://htmlcolors.com/brand-image/airbnb.png";
+        },
+        trimBody(text) {
+        if (text.length > this.max) {
+            return text.slice(0, this.max) + '...'
+        }
+        return text
+        }
+    }
 }
 </script>
 
@@ -21,6 +41,22 @@ export default {
                     Siamo il primo sistema di affitto case al mondo che ti offre una gamma completa di opzioni, <br> inoltre, siamo orgogliosi di offrire un'esperienza di prenotazione semplice e intuitiva, <br>
                     che ti permette di prenotare la tua casa ideale in pochi clic.
                 </p>
+            </div>
+        </div>
+        <div class="search_wrapper">
+            <div class="search_elements">
+                <div class="row align-items-center align-content-start">
+                    <div class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 col-xxl-3 text-center " v-for="home in filteredHomes">
+                        <div class="single_home_contents p-2">
+                            <img class="home_image" :src="imageConverter(home.cover_image)">
+                            <div class="card-body justify-content-center mt-2">
+                                <h5 class="card_title bold card-title text-center py-3">
+                                    {{ trimBody(home.title) }}
+                                </h5>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
         <div class="homes_wrapper">
