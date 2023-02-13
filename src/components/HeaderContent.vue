@@ -108,7 +108,9 @@ export default {
         <div
           class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-4 col-xxl-4 left d-flex justify-content-center justify-content-sm-center justify-content-md-center justify-content-lg-center justify-content-xl-start justify-content-xxl-start left">
           <div class="logo_wrapper px-5">
-            <img class="header_logo" src="../assets/img/logoBnBlateral.png" alt="Header branding" />
+            <a href="/">
+              <img class="header_logo" src="../assets/img/logoBnBlateral.png" alt="Header branding" />
+            </a>
           </div>
         </div>
         <div
@@ -116,11 +118,13 @@ export default {
           <div class="search_wrapper d-flex justify-content-center align-items-center gap-3">
             <input class="search_header" type="text" placeholder="Dimmi una Città o un Indirizzo.." v-model="query"
               @keyup.enter="searchHomes()" @input="searchAddress" />
-            <ul v-if="addresses.length > 0">
-              <li v-for="address in addresses" @click="selectAddress(address)">
-                {{ address.address.freeformAddress }}
-              </li>
-            </ul>
+            <div class="dropdown_menu_search d-flex flex-column justify-content-start">
+              <ul v-if="addresses.length > 0">
+                <li class="dropdown_list_element" v-for="address in addresses" @click="selectAddress(address)">
+                  {{ address.address.freeformAddress }}
+                </li>
+              </ul>
+            </div>
             <a class="search_button" @click="searchHomes()"><span><i
                   class="fa-solid fa-magnifying-glass px-2"></i></span>Ricerca</a>
           </div>
@@ -193,6 +197,7 @@ export default {
   transition: 0.4s;
   color: #ff5a5f;
   background-color: white;
+  cursor: pointer;
 }
 
 .affitta_header {
@@ -245,5 +250,29 @@ export default {
   background-color: white;
   color: #ff5a5f;
   transition: 0.4s;
+}
+
+.search_wrapper {
+  position: relative;
+  background-color: white;
+
+}
+
+.dropdown_menu_search {
+  position: absolute;
+  background-color: white;
+  top: 0;
+  left: 0;
+  right: 0;
+  margin-top: 55px;
+}
+
+.dropdown_list_element {
+  list-style-type: none;
+  padding-top: 5px;
+}
+
+.dropdown_list_element:hover {
+  cursor: pointer;
 }
 </style>
