@@ -23,6 +23,11 @@ export default {
         }
         return text
         }
+    },
+    data() {
+        return {
+            loading : false
+        }
     }
 }
 </script>
@@ -46,7 +51,7 @@ export default {
         <div class="search_wrapper">
             <div class="search_elements">
                 <div class="row align-items-center align-content-start">
-                    <div class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 col-xxl-3 text-center " v-for="home in filteredHomes">
+                    <div v-if="filteredHomes.length > 0" class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 col-xxl-3 text-center " v-for="home in filteredHomes">
                         <div class="single_home_contents p-2">
                             <img class="home_image" :src="imageConverter(home.cover_image)">
                             <div class="card-body justify-content-center mt-2">
@@ -55,6 +60,11 @@ export default {
                                 </h5>
                             </div>
                         </div>
+                    </div>
+                    <div v-else>
+                        <p class="bold text-center">
+                            Nessuna casa qui in zona :(
+                        </p>
                     </div>
                 </div>
             </div>
