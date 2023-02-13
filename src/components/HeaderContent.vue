@@ -7,13 +7,13 @@ export default {
     return {
       api_url: "http://127.0.0.1:8000",
       query: '',
-      addresses: [],
       latitude: '',
       longitude: '',
       radius: 20,
       filteredHomes: [],
       authenticated: false,
       loading: false,
+      showError: false,
       name: ''
     };
   },
@@ -36,6 +36,7 @@ export default {
       this.addresses = [];
     },
     async searchHomes() {
+<<<<<<< HEAD
       if (this.query.length >= 0) {
         const tomtomApiKey = '1W1nNbKly7WXl6NvYnr7983RJJawL26E';
         const response = await axios.get(
@@ -67,6 +68,38 @@ export default {
           console.error(error);
         }
       }
+=======
+        if (this.query.length >= 0) {
+            const tomtomApiKey = '1W1nNbKly7WXl6NvYnr7983RJJawL26E';
+            const response = await axios.get(
+            `https://api.tomtom.com/search/2/geocode/${this.query}.JSON?key=${tomtomApiKey}`
+            );
+            const data = response.data;
+            if (data.results.length > 0) {
+            this.latitude = data.results[0].position.lat;
+            this.longitude = data.results[0].position.lon;
+            console.log(this.latitude);
+            console.log(this.longitude);
+            }
+
+            // Recupera le case tramite la chiamata API al backend
+
+            try {
+            const homesResponse = await axios.get(
+                'http://127.0.0.1:8000/api/homes/' +
+                this.latitude +
+                '/' +
+                this.longitude +
+                '/' +
+                this.radius
+            );
+            console.log(this.filteredhomes = homesResponse.data.data);
+            this.$emit('search-homes-completed', homesResponse.data.data, this.loading = false);
+            } catch (error) {
+            console.error(error);
+            }
+        }
+>>>>>>> 477c2ba312370a33204837e7902cd1b742717886
     }
   },
   mounted() {
@@ -85,8 +118,8 @@ export default {
 </script>
 
 <template>
-  <div class="header_wrapper p-4">
-    <div class="header_elements">
+  <div class="header_wrapper">
+    <div class="header_elements p-4">
       <div class="row justify-content-around align-items-center">
         <div
           class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-4 col-xxl-4 left d-flex justify-content-center justify-content-sm-center justify-content-md-center justify-content-lg-center justify-content-xl-start justify-content-xxl-start left">

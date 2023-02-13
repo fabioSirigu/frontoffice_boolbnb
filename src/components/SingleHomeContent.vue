@@ -2,7 +2,7 @@
 import axios from 'axios'
 
 export default {
-    'name': 'Single Home Content',
+    name: 'SingleHomeContent',
     data() {
         return {
             api_url: "http://127.0.0.1:8000",
@@ -31,10 +31,10 @@ export default {
             return "https://htmlcolors.com/brand-image/airbnb.png";
         },
         trimBody(text) {
-        if (text.length > this.max) {
-            return text.slice(0, this.max) + '...'
-        }
-        return text
+            if (text.length > this.max) {
+                return text.slice(0, this.max) + '...'
+            }
+            return text
         }
     },
     mounted() {
@@ -45,14 +45,16 @@ export default {
 
 <template>
     <div class="row align-items-center align-content-start">
-        <div class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 col-xxl-3 text-center " v-for="(home, index) in homes.data">
-            <div v-if="index<4">
+        <div class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 col-xxl-3 text-center "
+            v-for="(home, index) in homes.data">
+            <div v-if="index < 4">
                 <div class="single_home_contents p-2">
                     <img class="home_image" :src="imageConverter(home.cover_image)">
                     <div class="card-body justify-content-center mt-2">
                         <h5 class="card_title bold card-title text-center py-3">
                             {{ trimBody(home.title) }}
                         </h5>
+                        <router-link :to="{ name: 'single-home', params: { slug: homeSlug } }">Clicca qui</router-link>
                     </div>
                 </div>
             </div>
@@ -64,6 +66,7 @@ export default {
 .card_title {
     font-size: 15px;
 }
+
 .home_image {
     width: 300px;
     height: 300px;
