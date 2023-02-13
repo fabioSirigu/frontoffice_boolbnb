@@ -10,7 +10,10 @@ export default {
         latitude: '',
         longitude: '',
         radius: 20,
-        filteredHomes: []
+        filteredHomes: [],
+        authenticated: false,
+        loading : false,
+        name: ''
     };
   },
   methods: {
@@ -39,12 +42,26 @@ export default {
                 this.radius
             );
             console.log(this.filteredhomes = homesResponse.data.data);
+            this.loading = true
             this.$emit('search-homes-completed', homesResponse.data.data);
+
             } catch (error) {
             console.error(error);
             }
         }
         }
+  },
+  mounted() {
+    axios.get(this.api_url + '/api/user')
+      .then(response => {
+        this.authenticated = true;
+        this.name = response.data.name;
+      })
+      .catch(error => {
+        this.authenticated = false;
+        this.name = '';
+        console.log(this.name)
+      });
   }
 };
 </script>
@@ -83,7 +100,26 @@ export default {
             <a class="affitta_header" href="#">Affitta con BoolBnb</a>
             <div class="user_dropdown_wrapper">
               <div class="user_dropdown_elements">
-                <div class="btn-group">
+                <div v-if="authenticated" class="btn-group">
+                  <button
+                    type="button"
+                    class="btn user_header dropdown-toggle"
+                    data-toggle="dropdown"
+                    aria-haspopup="true"
+                    aria-expanded="false"
+                  >
+                    <i class="fa-regular fa-user px-2"></i>
+                    {{ name }}
+                  </button>
+                  <div class="dropdown-menu dropdown_user">
+                    <a
+                      class="dropdown-item dropdown_user_item"
+                      href="http://127.0.0.1:8000/admin/homes"
+                      >Le mie Case</a
+                    >
+                  </div>
+                </div>
+                <div v-else class="btn-group">
                   <button
                     type="button"
                     class="btn user_header dropdown-toggle"

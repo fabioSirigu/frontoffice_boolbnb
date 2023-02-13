@@ -26,7 +26,9 @@ export default {
     },
     data() {
         return {
-            loading : false
+            api_url: "http://127.0.0.1:8000",
+            loading : false,
+            max: 30,
         }
     }
 }
@@ -51,20 +53,27 @@ export default {
         <div class="search_wrapper">
             <div class="search_elements">
                 <div class="row align-items-center align-content-start">
-                    <div v-if="filteredHomes.length > 0" class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 col-xxl-3 text-center " v-for="home in filteredHomes">
-                        <div class="single_home_contents p-2">
-                            <img class="home_image" :src="imageConverter(home.cover_image)">
-                            <div class="card-body justify-content-center mt-2">
-                                <h5 class="card_title bold card-title text-center py-3">
-                                    {{ trimBody(home.title) }}
-                                </h5>
-                            </div>
+                    <div v-if="loading && filteredHomes.length === 0">
+                        <div class="alert alert-danger alert-dismissible fade show d-flex justify-content-between align-items-center" role="alert">
+                            <p class="p-0 m-0">
+                                Nessuna corrispondenza.
+                            </p>
+                            <button type="button" class="close btn close_button_alert" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
                         </div>
                     </div>
-                    <div v-else>
-                        <p class="bold text-center">
-                            Nessuna casa qui in zona :(
-                        </p>
+                    <div class="row align-items-center align-content-start" v-else>
+                        <div class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 col-xxl-3 text-center " v-for="home in filteredHomes">
+                            <div class="single_home_contents p-2">
+                                <img class="home_image" :src="imageConverter(home.cover_image)">
+                                <div class="card-body justify-content-center mt-2">
+                                    <h5 class="card_title bold card-title text-center py-3">
+                                        {{ trimBody(home.title) }}
+                                    </h5>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -115,5 +124,9 @@ export default {
   transition: 0.4s;
   color: #ff5a5f;
   background-color: white;
+}
+
+.close_button_alert {
+    font-size: 30px;
 }
 </style>
