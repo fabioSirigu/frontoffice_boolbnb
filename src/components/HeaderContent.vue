@@ -18,7 +18,9 @@ export default {
       authenticated: false,
       loading: false,
       showError: false,
-      name: ''
+      name: '',
+      rooms: '',
+      services: []
     };
   },
   methods: {
@@ -79,7 +81,8 @@ export default {
             '/' +
             this.longitude +
             '/' +
-            this.radius
+            this.radius +
+            '?rooms=' + this.rooms
           );
           console.log(this.filteredhomes = homesResponse.data.data);
           this.$emit('search-homes-completed', homesResponse.data.data, this.loading = false);
@@ -119,7 +122,7 @@ export default {
         <div
           class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-4 col-xxl-4 justify-content-sm-center justify-content-md-center justify-content-lg-center justify-content-xl-start justify-content-xxl-start center">
           <div class="search_wrapper d-flex justify-content-center align-items-center gap-3">
-            <input class="search_header" type="text" placeholder="Dimmi una Città o un Indirizzo.." v-model="query"
+            <input class="search_header flex-grow-1" type="text" placeholder="Dimmi una Città o un Indirizzo.." v-model="query"
               @keyup.enter="searchHomes()" @input="searchAddress" />
             <div class="dropdown_menu_search d-flex flex-column justify-content-start">
               <ul v-if="addresses.length > 0">
@@ -128,8 +131,9 @@ export default {
                 </li>
               </ul>
             </div>
-            <a class="search_button" @click="searchHomes()"><span><i
-                  class="fa-solid fa-magnifying-glass px-2"></i></span>Ricerca</a>
+            <input class="search_header flex-grow-1" type="text" placeholder="Quante camere?" v-model="rooms"/>
+            <a class="search_button text-center flex-grow-1" @click="searchHomes()"><span><i
+                  class="fa-solid fa-magnifying-glass"></i></span></a>
           </div>
         </div>
         <div
