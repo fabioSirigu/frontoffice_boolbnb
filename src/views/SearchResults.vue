@@ -11,7 +11,10 @@ export default {
       results: [],
       error: '',
       max: 30,
-      cityName: ''
+      rooms: '',
+      services: [],
+      selectedServices: [],
+      searchFilteredHomes: []
     };
   },
   props: [
@@ -19,7 +22,6 @@ export default {
   ],
   created() {
     this.results = this.$route.query.results;
-    this.cityName = this.$route.params.cityName;
   },
   methods : {
     imageConverter(way) {
@@ -34,9 +36,33 @@ export default {
                 return text.slice(0, this.max) + '...'
             }
             return text
+        },
+        async getServices() {
+            try {
+              const response = await axios.get(this.api_url + '/api/services')
+              this.services = response.data
+            } catch (error) {
+              console.error(error)
+            }
+          },
+          async filterHomes() {
+            try {
+              const response = await axios.get(this.api_url + '/api/homes/filter', {
+                params: {
+                  rooms: this.rooms,
+                  services: this.selectedServices
+                }
+              })
+              this.searchFilteredHomes = response.data
+            } catch (error) {
+              console.error(error)
+            }
+          }
+        },
+        mounted() {
+          this.getServices()
         }
   }
-};
 </script>
 
 <template>
@@ -60,11 +86,24 @@ export default {
                 <div class="modal-dialog">
                   <div class="modal-content">
                     <div class="modal-header">
-                      <h1 class="modal-title fs-5" id="exampleModalLabel">Raddrizza il tiro</h1>
+                      <h1 class="modal-title fs-5" id="exampleModalLabel">
+                        Di cos'hai bisogno?
+                      </h1>
                       <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                      ...
+                      <div class="filters_wrapper">
+                        <div class="filters_elements p-3 d-flex justify-content-center flex-column">
+                          <label class="mb-2" for="services">Di quante camere hai bisogno?</label>
+                          <input class="search_header mb-4" type="text" placeholder="Quante camere?" v-model="rooms"/>
+                          <label class="mb-2" for="services">Seleziona i servizi:</label>
+                          <select class="multiple_filter" v-model="selectedServices" id="services" multiple>
+                            <option v-for="service in services" :key="service.id" :value="service.slug">
+                              {{ service.title }}
+                            </option>
+                          </select>
+                        </div>
+                      </div>
                     </div>
                     <div class="modal-footer">
                       <button type="button" class="btn modal_button_close" data-bs-dismiss="modal">Annulla</button>
@@ -79,7 +118,7 @@ export default {
       </div>
       <div class="homes_wrapper">
         <div class="homes_elements">
-          <div class="row align-items-center align-content-start">
+          <div class="row align-items-center align-content-start m-0">
               <div class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 col-xxl-3 text-center" v-for="home in filteredHomes">
                   <div class="single_home_contents p-2">
                       <img class="home_image" :src="imageConverter(home.cover_image)">
@@ -113,6 +152,15 @@ export default {
 <style lang="scss">
 .modal_filter_wrap {
   border-radius: 20px;
+}
+
+.multiple_filter {
+  border: 1px solid rgba(0, 0, 0, 0.175);
+  border-radius: 20px;
+  padding: 10px;
+  width: 100%;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.092);
+  font-size: 13px;
 }
 
 .modal_filter {

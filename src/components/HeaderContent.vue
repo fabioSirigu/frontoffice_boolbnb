@@ -97,7 +97,7 @@ export default {
             '/' +
             this.radius
           );
-          this.$router.replace({ name: 'search', params: { cityName: this.query }, query: { results: response.data } });
+          this.$router.replace({ name: 'search', query: { results: response.data } });
       } catch (error) {
         console.error(error);
       }
@@ -170,7 +170,7 @@ export default {
   </div>
 </template>
 
-<style lang="scss" scoped>
+<style lang="scss">
 .header_logo {
   width: 100px;
 }
