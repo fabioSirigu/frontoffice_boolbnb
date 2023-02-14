@@ -106,13 +106,13 @@ export default {
 .main_title {
     color: black;
     font-weight: 800;
-    font-size: 75px;
+    font-size: 50px;
 }
 
 .secondary_title {
     color: black;
     font-weight: 800;
-    font-size: 55px;
+    font-size: 50px;
 }
 
 .fancy {
