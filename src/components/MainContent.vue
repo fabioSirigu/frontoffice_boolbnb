@@ -102,7 +102,7 @@ export default {
     </div>
 </template>
 
-<style lang="scss" scoped>
+<style lang="scss">
 .main_title {
     color: black;
     font-weight: 800;

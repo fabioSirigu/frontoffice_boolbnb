@@ -97,7 +97,7 @@ export default {
             '/' +
             this.radius
           );
-          this.$router.replace({ name: 'search', query: { results: response.data } });
+          this.$router.replace({ name: 'search', params: { cityName: this.query }, query: { results: response.data } });
       } catch (error) {
         console.error(error);
       }
@@ -133,7 +133,9 @@ export default {
                 </li>
               </ul>
             </div>
-            <a class="search_button" @click="searchHomesAndSearch()"><span><i
+            <a class="search_button" v-if="this.query.length < 1"><span><i
+                  class="fa-solid fa-magnifying-glass px-1"></i></span>Ricerca</a>
+            <a class="search_button" v-else @click="searchHomesAndSearch()"><span><i
                   class="fa-solid fa-magnifying-glass px-1"></i></span>Ricerca</a>
           </div>
         </div>
@@ -142,17 +144,22 @@ export default {
             <a class="affitta_header" :href="this.api_url + '/admin/homes/create'">Affitta con BoolBnb</a>
             <div class="user_dropdown_wrapper">
               <div class="user_dropdown_elements">
-                <div class="btn-group">
-                  <button type="button" class="btn user_header dropdown-toggle" data-toggle="dropdown"
-                    aria-haspopup="true" aria-expanded="false">
+                <div class="dropdown">
+                <div class="dropdown">
+                  <button class="btn user_header dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                     <i class="fa-regular fa-user px-2"></i>
                     Il mio BoolBnb
-                  </button>
-                  <div class="dropdown-menu dropdown_user">
-                    <a class="dropdown-item dropdown_user_item" :href="`${this.api_url}/login`">Accedi</a>
-                    <a class="dropdown-item dropdown_user_item" :href="`${this.api_url}/register`">Registrati
-                      ora</a>
-                  </div>
+                    </button>
+                    <ul class="dropdown-menu dropdown dropdown_user">
+                      <li>
+                        <a class="dropdown-item dropdown_user_item" :href="`${this.api_url}/login`">Accedi</a>
+                      </li>
+                      <li>
+                        <a class="dropdown-item dropdown_user_item" :href="`${this.api_url}/register`">Registrati
+                          ora</a>
+                      </li>
+                    </ul>
+                </div>
                 </div>
               </div>
             </div>

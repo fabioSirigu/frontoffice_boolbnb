@@ -1,7 +1,7 @@
 import { createApp, reactive } from 'vue'
 import './assets/scss/style.scss'
 import { router } from './router';
-import '../node_modules/bootstrap/js/src/dropdown';
+import * as bootstrap from 'bootstrap';
 import App from './App.vue'
 
 export const store = reactive({
