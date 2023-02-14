@@ -1,6 +1,8 @@
 import { createRouter, createWebHistory } from "vue-router";
 import HomeView from './views/HomeView.vue';
 import SingleHomeView from './views/SingleHomeView.vue';
+import NotFoundView from './views/NotFoundView.vue'
+
 
 const router = createRouter({
     history: createWebHistory(),
@@ -14,6 +16,11 @@ const router = createRouter({
             path: '/homes/:slug',
             name: 'single-home',
             component: SingleHomeView
+        },
+        {
+            path: '/:pathMatch(.*)*',
+            name: 'not-found',
+            component: NotFoundView
         },
     ]
 })
