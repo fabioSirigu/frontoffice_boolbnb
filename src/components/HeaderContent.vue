@@ -85,29 +85,25 @@ export default {
           console.error(error);
         }
       }
+    },
+    async search() {
+      try {
+        const response = await axios.get(store.api_base_url + `/api/search?q=${this.query}&lat=${this.latitude}&lon=${this.longitude}&radius=${this.radius}`);
+        this.$router.push({ name: 'searchresults', query: { results: JSON.stringify(response.data) } });
+      } catch (error) {
+        console.error(error);
+      }
     }
-  },
-  mounted() {
-    axios.get(this.api_url + '/api/user')
-      .then(response => {
-        this.authenticated = true;
-        this.name = response.data.name;
-      })
-      .catch(error => {
-        this.authenticated = false;
-        this.name = '';
-        console.log(this.name)
-      });
   }
-};
+  }
 </script>
 
 <template>
   <div class="header_wrapper">
-    <div class="header_elements p-4">
+    <div class="header_elements">
       <div class="row justify-content-around align-items-center">
         <div
-          class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-4 col-xxl-4 left d-flex justify-content-center justify-content-sm-center justify-content-md-center justify-content-lg-center justify-content-xl-start justify-content-xxl-start left">
+          class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-4 col-xxl-4 left d-flex justify-content-center justify-content-sm-center justify-content-md-center justify-content-lg-center justify-content-xl-start justify-content-xxl-start left p-3">
           <div class="logo_wrapper px-5">
             <a href="/">
               <img class="header_logo" src="../assets/img/logoBnBlateral.png" alt="Header branding" />
@@ -115,7 +111,7 @@ export default {
           </div>
         </div>
         <div
-          class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-4 col-xxl-4 justify-content-sm-center justify-content-md-center justify-content-lg-center justify-content-xl-start justify-content-xxl-start center">
+          class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-4 col-xxl-4 justify-content-sm-center justify-content-md-center justify-content-lg-center justify-content-xl-start justify-content-xxl-start center p-4">
           <div class="search_wrapper d-flex justify-content-center align-items-center gap-3">
             <input class="search_header" type="text" placeholder="Dimmi una Città o un Indirizzo.." v-model="query" @input="searchAddress" />
             <div class="dropdown_menu_search d-flex flex-column justify-content-start">
@@ -125,28 +121,16 @@ export default {
                 </li>
               </ul>
             </div>
-            <a class="search_button" @click="searchHomes()"><span><i
-                  class="fa-solid fa-magnifying-glass px-2"></i></span>Ricerca</a>
+            <a class="search_button" v-on:click="searchHomes(); search()"><span><i
+                  class="fa-solid fa-magnifying-glass px-1"></i></span>Ricerca</a>
           </div>
         </div>
-        <div
-          class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-4 col-xxl-4 right d-flex justify-content-center justify-content-sm-center justify-content-md-center justify-content-lg-center justify-content-xl-end justify-content-xxl-end">
+        <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-4 col-xxl-4 right d-flex justify-content-center justify-content-sm-center justify-content-md-center justify-content-lg-center justify-content-xl-end justify-content-xxl-end mb-4 py-0">
           <div class="user_elements d-flex justify-content-between align-items-center gap-1">
             <a class="affitta_header" href="#">Affitta con BoolBnb</a>
             <div class="user_dropdown_wrapper">
               <div class="user_dropdown_elements">
-                <div v-if="authenticated" class="btn-group">
-                  <button type="button" class="btn user_header dropdown-toggle" data-toggle="dropdown"
-                    aria-haspopup="true" aria-expanded="false">
-                    <i class="fa-regular fa-user px-2"></i>
-                    {{ name }}
-                  </button>
-                  <div class="dropdown-menu dropdown_user">
-                    <a class="dropdown-item dropdown_user_item" :href="`${this.api_url}/admin/homes`">Le mie
-                      Case</a>
-                  </div>
-                </div>
-                <div v-else class="btn-group">
+                <div class="btn-group">
                   <button type="button" class="btn user_header dropdown-toggle" data-toggle="dropdown"
                     aria-haspopup="true" aria-expanded="false">
                     <i class="fa-regular fa-user px-2"></i>
@@ -177,6 +161,7 @@ export default {
   padding: 10px;
   width: 100%;
   box-shadow: 0 3px 10px rgba(0, 0, 0, 0.092);
+  font-size: 13px;
 }
 .header_wrapper {
   border-bottom: 1px solid rgba(0, 0, 0, 0.099);
@@ -190,6 +175,8 @@ export default {
   border-radius: 20px;
   width: 150px;
   height: 100%;
+  font-size: 13px;
+  text-align: center;
 }
 .search_button:hover {
   transition: 0.4s;
@@ -244,6 +231,7 @@ export default {
 .search_wrapper {
   position: relative;
   background-color: white;
+  z-index: 1000;
 }
 .dropdown_menu_search {
   position: absolute;

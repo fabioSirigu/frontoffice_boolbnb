@@ -70,7 +70,7 @@ export default {
                                 </button>
                             </div>
                         </div> -->
-                        <div class="row align-items-center align-content-start">
+                        <!-- <div class="row align-items-center align-content-start">
                             <div class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 col-xxl-3 text-center "
                                 v-for="home in filteredHomes">
                                 <div class="single_home_contents p-2">
@@ -85,7 +85,7 @@ export default {
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </div> -->
                     </div>
                 </div>
             </div>
