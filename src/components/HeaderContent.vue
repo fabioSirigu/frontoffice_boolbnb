@@ -18,7 +18,10 @@ export default {
       authenticated: false,
       loading: false,
       showError: false,
-      name: ''
+      name: '',
+      rooms: '',
+      services: [],
+      servicesList: []
     };
   },
   methods: {
@@ -57,50 +60,58 @@ export default {
       this.addresses = [];
     },
     async searchHomes() {
-      if (this.query.length >= 0) {
-        const tomtomApiKey = '1W1nNbKly7WXl6NvYnr7983RJJawL26E';
-        const response = await axios.get(
-          `https://api.tomtom.com/search/2/geocode/${this.query}.JSON?key=${tomtomApiKey}`
+    if (this.query.length >= 0) {
+      const tomtomApiKey = '1W1nNbKly7WXl6NvYnr7983RJJawL26E';
+      const response = await axios.get(
+        `https://api.tomtom.com/search/2/geocode/${this.query}.JSON?key=${tomtomApiKey}`
+      );
+      const data = response.data;
+      if (data.results.length > 0) {
+        this.latitude = data.results[0].position.lat;
+        this.longitude = data.results[0].position.lon;
+      }
+
+      // Recupera le case tramite la chiamata API al backend
+      try {
+        const homesResponse = await axios.get(
+          store.api_base_url + '/api/homes/' +
+          this.latitude +
+          '/' +
+          this.longitude +
+          '/' +
+          this.radius +
+          '?rooms=' + this.rooms +
+          '&services=' + this.services.join(',')
         );
-        const data = response.data;
-        if (data.results.length > 0) {
-          this.latitude = data.results[0].position.lat;
-          this.longitude = data.results[0].position.lon;
-          console.log(this.latitude);
-          console.log(this.longitude);
-        }
-
-        // Recupera le case tramite la chiamata API al backend
-
-        try {
-          const homesResponse = await axios.get(
-            store.api_base_url + '/api/homes/' +
-            this.latitude +
-            '/' +
-            this.longitude +
-            '/' +
-            this.radius
-          );
-          console.log(this.filteredhomes = homesResponse.data.data);
-          this.$emit('search-homes-completed', homesResponse.data.data, this.loading = false);
-        } catch (error) {
-          console.error(error);
-        }
+        console.log(this.filteredhomes = homesResponse.data.data);
+        this.$emit('search-homes-completed', homesResponse.data.data, this.loading = false);
+      } catch (error) {
+        console.error(error);
       }
     }
+},
   },
   mounted() {
-    axios.get(this.api_url + '/api/user')
-      .then(response => {
-        this.authenticated = true;
-        this.name = response.data.name;
-      })
-      .catch(error => {
-        this.authenticated = false;
-        this.name = '';
-        console.log(this.name)
-      });
-  }
+  axios.get(this.api_url + '/api/user')
+    .then(response => {
+      this.authenticated = true;
+      this.name = response.data.name;
+    })
+    .catch(error => {
+      this.authenticated = false;
+      this.name = '';
+      console.log(this.name)
+    });
+
+  (async () => {
+    try {
+      const servicesResponse = await axios.get(store.api_base_url + '/api/services');
+      this.servicesList = servicesResponse.data.data;
+    } catch (error) {
+      console.error(error);
+    }
+  })();
+}
 };
 </script>
 
@@ -118,8 +129,9 @@ export default {
         </div>
         <div
           class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-4 col-xxl-4 justify-content-sm-center justify-content-md-center justify-content-lg-center justify-content-xl-start justify-content-xxl-start center">
-          <div class="search_wrapper d-flex justify-content-center align-items-center gap-3">
-            <input class="search_header" type="text" placeholder="Dimmi una Città o un Indirizzo.." v-model="query"
+          <div class="search_wrapper row justify-content-center  align-items-center gap-3">
+              <div class="">
+                <input class="search_header flex-grow-1" type="text" placeholder="Dimmi una Città o un Indirizzo.." v-model="query"
               @keyup.enter="searchHomes()" @input="searchAddress" />
             <div class="dropdown_menu_search d-flex flex-column justify-content-start">
               <ul v-if="addresses.length > 0">
@@ -128,8 +140,31 @@ export default {
                 </li>
               </ul>
             </div>
-            <a class="search_button" @click="searchHomes()"><span><i
-                  class="fa-solid fa-magnifying-glass px-2"></i></span>Ricerca</a>
+              </div>
+              <div class="">
+                <input class="search_header rooms flex-grow-1" type="text" placeholder="Quante camere?" v-model="rooms"/>
+              </div>
+              <div class="col-6">
+                <label for="services">Services:</label>
+                <input type="text" multiple id="services" name="services" list="services-list">
+                <datalist id="services-list">
+                  <option value="Wifi" ></option>
+                  <option value="Piscina"></option>
+                  <option value="Giardino"></option>
+                  <option value="Cucina"></option>
+                  <option value="Aria Condizionata"></option>
+                  <option value="Lavatrice"></option>
+                  <option value="Asciugatrice"></option>
+                  <option value="Riscaldamento"></option>
+                  <option value="Tv"></option>
+                  <option value="Asciugacapelli"></option>
+                  <option value="Ferro da stiro"></option>
+                  <option value="Culla"></option>
+                  <option value="Parcheggio gratuito"></option>
+                </datalist>
+            <a class="search_button text-center flex-grow-1" @click="searchHomes()"><span><i
+                  class="fa-solid fa-magnifying-glass"></i></span></a>
+              </div>
           </div>
         </div>
         <div
@@ -280,4 +315,5 @@ export default {
 .dropdown_list_element:hover {
   cursor: pointer;
 }
+
 </style>
