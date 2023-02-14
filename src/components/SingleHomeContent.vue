@@ -1,11 +1,14 @@
 <script>
+import { main } from '@popperjs/core';
 import axios from 'axios'
+import { store } from '../main.js';
 
 export default {
     name: 'SingleHomeContent',
     data() {
         return {
-            api_url: "http://127.0.0.1:8000",
+            store,
+            api_url: store.api_base_url,
             homes: {},
             error: "",
             max: 30,

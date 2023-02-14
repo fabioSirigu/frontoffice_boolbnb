@@ -1,11 +1,14 @@
 <script>
 import axios from 'axios';
+import { store } from '../main.js';
+
 
 export default {
   name: "Header Content",
   data() {
     return {
-      api_url: "http://127.0.0.1:8000",
+      store,
+      api_url: store.api_base_url,
       query: '',
       addresses: [],
       latitude: '',
@@ -71,7 +74,7 @@ export default {
 
         try {
           const homesResponse = await axios.get(
-            'http://127.0.0.1:8000/api/homes/' +
+            store.api_base_url + '/api/homes/' +
             this.latitude +
             '/' +
             this.longitude +
@@ -142,7 +145,8 @@ export default {
                     {{ name }}
                   </button>
                   <div class="dropdown-menu dropdown_user">
-                    <a class="dropdown-item dropdown_user_item" href="http://127.0.0.1:8000/admin/homes">Le mie Case</a>
+                    <a class="dropdown-item dropdown_user_item" :href="`${this.api_url}/admin/homes`">Le mie
+                      Case</a>
                   </div>
                 </div>
                 <div v-else class="btn-group">
@@ -152,8 +156,9 @@ export default {
                     Il mio BoolBnb
                   </button>
                   <div class="dropdown-menu dropdown_user">
-                    <a class="dropdown-item dropdown_user_item" href="http://127.0.0.1:8000/login">Accedi</a>
-                    <a class="dropdown-item dropdown_user_item" href="http://127.0.0.1:8000/register">Registrati ora</a>
+                    <a class="dropdown-item dropdown_user_item" :href="`${this.api_url}/login`">Accedi</a>
+                    <a class="dropdown-item dropdown_user_item" :href="`${this.api_url}/register`">Registrati
+                      ora</a>
                   </div>
                 </div>
               </div>

@@ -1,4 +1,6 @@
 <script>
+import { store } from '../main.js';
+
 import SingleHomeContent from '../components/SingleHomeContent.vue';
 
 export default {
@@ -26,7 +28,8 @@ export default {
     },
     data() {
         return {
-            api_url: "http://127.0.0.1:8000",
+            store,
+            api_url: store.api_base_url,
             loading: false,
             max: 30,
         }
