@@ -88,11 +88,23 @@ export default {
     },
     async search() {
       try {
-        const response = await axios.get(store.api_base_url + `/api/search?q=${this.query}&lat=${this.latitude}&lon=${this.longitude}&radius=${this.radius}`);
-        this.$router.push({ name: 'searchresults', query: { results: JSON.stringify(response.data) } });
+        console.log('lat:', this.latitude, 'lon:', this.longitude);
+        const response = await axios.get(
+            store.api_base_url + '/api/search/' +
+            this.latitude +
+            '/' +
+            this.longitude +
+            '/' +
+            this.radius
+          );
+        this.$router.push({ name: 'search', query: { results: JSON.stringify(response.data) } });
       } catch (error) {
         console.error(error);
       }
+    },
+    async searchHomesAndSearch() {
+      await this.searchHomes();
+      this.search();
     }
   }
   }
@@ -121,7 +133,7 @@ export default {
                 </li>
               </ul>
             </div>
-            <a class="search_button" v-on:click="searchHomes(); search()"><span><i
+            <a class="search_button" @click="searchHomesAndSearch()"><span><i
                   class="fa-solid fa-magnifying-glass px-1"></i></span>Ricerca</a>
           </div>
         </div>
