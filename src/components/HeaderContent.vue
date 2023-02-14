@@ -97,7 +97,7 @@ export default {
             '/' +
             this.radius
           );
-        this.$router.push({ name: 'search', query: { results: JSON.stringify(response.data) } });
+          this.$router.replace({ name: 'search', query: { results: response.data } });
       } catch (error) {
         console.error(error);
       }
