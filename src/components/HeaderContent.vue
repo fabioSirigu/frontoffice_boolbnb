@@ -101,7 +101,7 @@ export default {
 <template>
   <div class="header_wrapper">
     <div class="header_elements">
-      <div class="row justify-content-around align-items-center">
+      <div class="row justify-content-around align-items-center mx-0">
         <div
           class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-4 col-xxl-4 left d-flex justify-content-center justify-content-sm-center justify-content-md-center justify-content-lg-center justify-content-xl-start justify-content-xxl-start left p-3">
           <div class="logo_wrapper px-5">
@@ -125,9 +125,9 @@ export default {
                   class="fa-solid fa-magnifying-glass px-1"></i></span>Ricerca</a>
           </div>
         </div>
-        <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-4 col-xxl-4 right d-flex justify-content-center justify-content-sm-center justify-content-md-center justify-content-lg-center justify-content-xl-end justify-content-xxl-end mb-4 py-0">
+        <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-4 col-xxl-4 right d-flex justify-content-center justify-content-sm-center justify-content-md-center justify-content-lg-center justify-content-xl-end justify-content-xxl-end py-0">
           <div class="user_elements d-flex justify-content-between align-items-center gap-1">
-            <a class="affitta_header" href="#">Affitta con BoolBnb</a>
+            <a class="affitta_header" :href="this.api_url + '/admin/homes/create'">Affitta con BoolBnb</a>
             <div class="user_dropdown_wrapper">
               <div class="user_dropdown_elements">
                 <div class="btn-group">
