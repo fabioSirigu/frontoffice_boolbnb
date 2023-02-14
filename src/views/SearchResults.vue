@@ -98,7 +98,7 @@ export default {
                           <input class="search_header mb-4" type="text" placeholder="Quante camere?" v-model="rooms"/>
                           <label class="mb-2" for="services">Seleziona i servizi:</label>
                           <select class="multiple_filter" v-model="selectedServices" id="services" multiple>
-                            <option v-for="service in services" :key="service.id" :value="service.slug">
+                            <option v-for="service in services.data" :key="service.id" :value="service.slug">
                               {{ service.title }}
                             </option>
                           </select>
@@ -107,7 +107,7 @@ export default {
                     </div>
                     <div class="modal-footer">
                       <button type="button" class="btn modal_button_close" data-bs-dismiss="modal">Annulla</button>
-                      <button type="button" class="btn modal_button_salva">Scopri 22 risultati</button>
+                      <button type="button" class="btn modal_button_salva" data-bs-dismiss="modal" @click="filterHomes">Scopri 22 risultati</button>
                     </div>
                   </div>
                 </div>
