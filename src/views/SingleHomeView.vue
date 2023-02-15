@@ -25,7 +25,7 @@ export default {
                 message: this.message,
             }
             console.log(data);
-            axios.post(this.store.api_base_url + '/api/messages', data)
+            axios.post(this.store.api_base_url + '/Api/messages', data)
                 .then(response => {
                     this.success = response.data.success
                     console.log(response.data.success);
