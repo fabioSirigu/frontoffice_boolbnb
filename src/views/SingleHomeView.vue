@@ -89,7 +89,7 @@ export default {
                         </ul>
                     </div>
                     <div class="services">
-                        <h3>Ecco i servizi disponibili</h3>
+                        <h3>Servizi disponibili</h3>
                         <ul class="d-flex ">
                             <li v-for="service in this.home.services">{{ service.title }}</li>
                         </ul>
