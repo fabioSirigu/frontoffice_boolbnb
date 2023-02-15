@@ -11,26 +11,34 @@ export default {
             name: '',
             email: '',
             message: '',
-            userEmail: '',
+            home_id: '',
+            errors: {}
         }
     }, methods: {
-        submitForm() {
+        SubmitForm() {
+            this.loading = true
+            this.errors = {}
             const data = {
+                home_id: this.home.id,
                 name: this.name,
                 email: this.email,
-                message: this.message
-            };
+                message: this.message,
+            }
+            console.log(data);
             axios.post(this.store.api_base_url + '/api/messages', data)
                 .then(response => {
-                    console.log(response.data);
-                    // reset the form
-                    this.name = '';
-                    this.email = '';
-                    this.message = '';
+                    this.success = response.data.success
+                    console.log(response.data.success);
+                    if (this.success) {
+                        this.home.id = ''
+                        this.name = ''
+                        this.email = ''
+                        this.message = ''
+                    } else {
+                        this.errors = response.data.errors
+                    }
+                    this.loading = false
                 })
-                .catch(error => {
-                    console.log(error);
-                });
         }
     },
     mounted() {
@@ -94,7 +102,7 @@ export default {
                 Contatta il proprietario
             </div>
             <div class="card-body">
-                <form @submit.prevent="submitForm()">
+                <form @submit.prevent="SubmitForm()">
                     <div class="form-group">
                         <label class="mb-2" for="name">Nome*</label>
                         <input type="text" class="form-control" id="name" v-model="name" required>
