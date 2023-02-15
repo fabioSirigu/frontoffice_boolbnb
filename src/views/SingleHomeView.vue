@@ -8,6 +8,37 @@ export default {
             store,
             home: {},
             loading: true,
+            name: '',
+            email: '',
+            message: '',
+            home_id: '',
+            errors: {}
+        }
+    }, methods: {
+        SubmitForm() {
+            this.loading = true
+            this.errors = {}
+            const data = {
+                home_id: this.home.id,
+                name: this.name,
+                email: this.email,
+                message: this.message,
+            }
+            console.log(data);
+            axios.post(this.store.api_base_url + '/Api/messages', data)
+                .then(response => {
+                    this.success = response.data.success
+                    console.log(response.data.success);
+                    if (this.success) {
+                        this.home.id = ''
+                        this.name = ''
+                        this.email = ''
+                        this.message = ''
+                    } else {
+                        this.errors = response.data.errors
+                    }
+                    this.loading = false
+                })
         }
     },
     mounted() {
@@ -66,6 +97,29 @@ export default {
                 </div>
             </div>
         </div>
+        <div class="card mt-5">
+            <div class="card-header">
+                Contatta il proprietario
+            </div>
+            <div class="card-body">
+                <form @submit.prevent="SubmitForm()">
+                    <div class="form-group">
+                        <label class="mb-2" for="name">Nome*</label>
+                        <input type="text" class="form-control" id="name" v-model="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="my-2" for="email">Email*</label>
+                        <input type="email" class="form-control" id="email" v-model="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="my-2" for="message">Messaggio*</label>
+                        <textarea class="form-control" id="message" v-model="message" rows="3" required></textarea>
+                    </div>
+                    <p class="required mt-3">*campi obbligatori</p>
+                    <button type="submit" class="btn btn-primary my-3">Invia messaggio</button>
+                </form>
+            </div>
+        </div>
     </div>
 </template>
 
@@ -116,6 +170,9 @@ export default {
             padding-left: 0;
         }
     }
+}
 
+.required {
+    font-size: 12px;
 }
 </style>
