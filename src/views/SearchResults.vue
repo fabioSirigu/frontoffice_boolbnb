@@ -8,13 +8,15 @@ export default {
   data() {
     return {
       api_url: store.api_base_url,
-      results: [],
       error: '',
       max: 30,
-      rooms: '',
+      results: [],
+      rooms: null,
       services: [],
       selectedServices: [],
-      searchFilteredHomes: []
+      searchFilteredHomes: [],
+      filteredRoomServicesHomes: [],
+      
     };
   },
   props: [
@@ -25,43 +27,57 @@ export default {
   },
   methods : {
     imageConverter(way) {
-            console.log(way);
-            if (way) {
-                return this.api_url + "/storage/" + way;
-            }
-            return "https://htmlcolors.com/brand-image/airbnb.png";
-        },
-        trimBody(text) {
-            if (text.length > this.max) {
-                return text.slice(0, this.max) + '...'
-            }
-            return text
-        },
-        async getServices() {
-            try {
-              const response = await axios.get(this.api_url + '/api/services')
-              this.services = response.data
-            } catch (error) {
-              console.error(error)
-            }
-          },
-          async filterHomes() {
-            try {
-              const response = await axios.get(this.api_url + '/api/homes/filter', {
-                params: {
-                  rooms: this.rooms,
-                  services: this.selectedServices
-                }
-              })
-              this.searchFilteredHomes = response.data
-            } catch (error) {
-              console.error(error)
-            }
-          }
-        },
-        mounted() {
-          this.getServices()
+        console.log(way);
+        if (way) {
+            return this.api_url + "/storage/" + way;
         }
+        return "https://htmlcolors.com/brand-image/airbnb.png";
+    },
+    trimBody(text) {
+        if (text.length > this.max) {
+            return text.slice(0, this.max) + '...'
+        }
+        return text
+    },
+    async getServices() {
+        try {
+          const response = await axios.get(this.api_url + '/api/services')
+          this.services = response.data
+        } catch (error) {
+          console.error(error)
+        }
+    },
+    async filterHomes() {
+      try {
+        const response = await axios.get(this.api_url + '/api/homes');
+        let searchFilteredHomes = response.data.data;
+
+        // Applica il filtro per il numero di stanze
+        if (this.rooms) {
+          searchFilteredHomes = searchFilteredHomes.filter(home => home.rooms >= parseInt(this.rooms));
+        }
+
+        // Applica il filtro per i servizi
+        if (this.selectedServices.length > 0) {
+          searchFilteredHomes = searchFilteredHomes.filter(home => {
+            for (let service of this.selectedServices) {
+              if (!home.services.some(s => s.slug === service)) {
+                return false;
+              }
+            }
+            return true;
+          });
+        }
+
+        this.filteredRoomServicesHomes = searchFilteredHomes;
+      } catch (error) {
+        console.error(error);
+      }
+    }
+    },
+    mounted() {
+      this.getServices()
+    }
   }
 </script>
 
@@ -95,7 +111,7 @@ export default {
                       <div class="filters_wrapper">
                         <div class="filters_elements p-3 d-flex justify-content-center flex-column">
                           <label class="mb-2" for="services">Di quante camere hai bisogno?</label>
-                          <input class="search_header mb-4" type="text" placeholder="Quante camere?" v-model="rooms"/>
+                          <input class="search_header mb-4" type="number" placeholder="Quante camere?" v-model="rooms"/>
                           <label class="mb-2" for="services">Seleziona i servizi:</label>
                           <select class="multiple_filter" v-model="selectedServices" id="services" multiple>
                             <option v-for="service in services.data" :key="service.id" :value="service.slug">
@@ -118,35 +134,27 @@ export default {
       </div>
       <div class="homes_wrapper">
         <div class="homes_elements">
-          <div class="row align-items-center align-content-start m-0">
-              <div class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 col-xxl-3 text-center" v-for="home in filteredHomes">
-                  <div class="single_home_contents p-2">
-                      <img class="home_image" :src="imageConverter(home.cover_image)">
-                      <div class="card-body justify-content-center mt-2">
-                          <h5 class="card_title bold card-title text-center py-3">
-                              {{ trimBody(home.title) }}
-                          </h5>
-                          <router-link class="home_link black" :to="{ name: 'single-home', params: { slug: home.slug } }">
-                            SCOPRI ORA
-                          </router-link>
-                      </div>
-                  </div>
+          <div class="row align-items-center align-content-start">
+            <div class="singlehome_elements">
+              <div class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 col-xxl-3 text-center" v-for="home in filteredRoomServicesHomes">
+                <div class="single_home_contents p-2">
+                    <img class="home_image" :src="imageConverter(home.cover_image)">
+                    <div class="card-body justify-content-center mt-2">
+                        <h5 class="card_title bold card-title text-center py-3">
+                            {{ trimBody(home.title) }}
+                        </h5>
+                        <router-link :to="{ name: 'single-home', params: { slug: home.slug } }">Leggi di
+                            più</router-link>
+                    </div>
                 </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
     </div>
   </div>
 </div>
-<!-- <div>
-  <div class="titles_wrapper">
-      <div class="titles_elements text-center">
-        <h1 class="main_title black">
-            Effettua la tua Ricerca
-        </h1>
-      </div>
-  </div>
-</div> -->
 </template>
 
 <style lang="scss">
