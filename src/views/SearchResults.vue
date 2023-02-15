@@ -91,7 +91,12 @@ export default {
       </div>
       <div class="homes_wrapper">
         <div class="homes_elements vh-100">
-          <div v-if="functionActive">
+          <div v-if="this.filteredHomes.length === 0">
+            <h1 class="main_title search_title text-center black">
+              Fai una ricerca
+            </h1> 
+          </div>
+          <div v-else-if="functionActive">
             <div v-if="filteredRoomServicesHomes.length > 0">
               <div class="titles_elements text-center">
                 <h1 class="main_title search_title black">
@@ -206,12 +211,7 @@ export default {
               </div>
             </div>
           </div>
-          <div v-else-if="filterHomes.length == 0">
-            <h1 class="main_title search_title text-center black">
-              Fai una ricerca
-            </h1> 
-          </div>
-          <div v-else-if="functionActive == false">
+          <div v-else>
             <div class="titles_elements text-center">
               <h1 class="main_title search_title black">
                   Affina la tua ricerca
