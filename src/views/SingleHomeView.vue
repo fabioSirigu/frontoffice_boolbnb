@@ -25,20 +25,19 @@ export default {
                 message: this.message,
             }
             console.log(data);
-            axios.post(this.store.api_base_url + '/Api/messages', data)
-                .then(response => {
-                    this.success = response.data.success
-                    console.log(response.data.success);
-                    if (this.success) {
-                        this.home.id = ''
-                        this.name = ''
-                        this.email = ''
-                        this.message = ''
-                    } else {
-                        this.errors = response.data.errors
-                    }
-                    this.loading = false
-                })
+            axios.post(`${this.store.api_base_url}/Api/messages`, data).then(response => {
+                this.success = response.data.success
+                console.log(response.data.success);
+                if (this.success) {
+                    this.home.id = ''
+                    this.name = ''
+                    this.email = ''
+                    this.message = ''
+                } else {
+                    this.errors = response.data.errors
+                }
+                this.loading = false
+            })
         }
     },
     mounted() {
