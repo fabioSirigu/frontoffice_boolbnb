@@ -13,6 +13,7 @@ export default {
       results: [],
       rooms: null,
       services: [],
+      beds: [],
       selectedServices: [],
       searchFilteredHomes: [],
       filteredRoomServicesHomes: [],
@@ -57,6 +58,11 @@ export default {
         // Applica il filtro per il numero di stanze
         if (this.rooms) {
           searchFilteredHomes = searchFilteredHomes.filter(home => home.rooms >= parseInt(this.rooms));
+        }
+
+        // Applica il filtro per il numero di letti
+        if (this.beds) {
+          searchFilteredHomes = searchFilteredHomes.filter(home => home.beds >= parseInt(this.beds));
         }
 
         // Applica il filtro per i servizi
@@ -124,6 +130,8 @@ export default {
                               <div class="filters_elements p-3 d-flex justify-content-center flex-column">
                                 <label class="mb-2" for="services">Di quante camere hai bisogno?</label>
                                 <input class="search_header mb-4" type="number" placeholder="Quante camere?" v-model="rooms"/>
+                                <label class="mb-2" for="services">Quanti letti servono?</label>
+                                <input class="search_header mb-4" type="number" placeholder="Quante letti?" v-model="beds"/>
                                 <label class="mb-2" for="services">Seleziona i servizi:</label>
                                 <select class="multiple_filter" v-model="selectedServices" id="services" multiple>
                                   <option v-for="service in services.data" :key="service.id" :value="service.slug">
@@ -190,6 +198,8 @@ export default {
                               <div class="filters_elements p-3 d-flex justify-content-center flex-column">
                                 <label class="mb-2" for="services">Di quante camere hai bisogno?</label>
                                 <input class="search_header mb-4" type="number" placeholder="Quante camere?" v-model="rooms"/>
+                                <label class="mb-2" for="services">Quanti letti servono?</label>
+                                <input class="search_header mb-4" type="number" placeholder="Quante letti?" v-model="beds"/>
                                 <label class="mb-2" for="services">Seleziona i servizi:</label>
                                 <select class="multiple_filter" v-model="selectedServices" id="services" multiple>
                                   <option v-for="service in services.data" :key="service.id" :value="service.slug">
@@ -238,6 +248,8 @@ export default {
                             <div class="filters_elements p-3 d-flex justify-content-center flex-column">
                               <label class="mb-2" for="services">Di quante camere hai bisogno?</label>
                               <input class="search_header mb-4" type="number" placeholder="Quante camere?" v-model="rooms"/>
+                              <label class="mb-2" for="services">Quanti letti servono?</label>
+                                <input class="search_header mb-4" type="number" placeholder="Quante letti?" v-model="beds"/>
                               <label class="mb-2" for="services">Seleziona i servizi:</label>
                               <select class="multiple_filter" v-model="selectedServices" id="services" multiple>
                                 <option v-for="service in services.data" :key="service.id" :value="service.slug">
