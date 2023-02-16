@@ -7,6 +7,7 @@ export default {
         return {
             store,
             home: {},
+            success: true,
             loading: true,
             name: '',
             email: '',
@@ -95,10 +96,17 @@ export default {
                 </div>
             </div>
         </div>
-        <div class="card mt-5">
+        <div v-if="success" class="alert alert-success text-start my-3" role="alert">
+            Messaggio inviato con successo!
+        </div>
+        <div v-else class="alert alert-danger text-start" role="alert">
+            Messaggio non inviato!
+        </div>
+        <div class="card">
             <div class="card-header">
                 Contatta il proprietario
             </div>
+
             <div class="card-body">
                 <form @submit.prevent="SubmitForm()">
                     <div class="form-group">
@@ -114,7 +122,9 @@ export default {
                         <textarea class="form-control" id="message" v-model="message" rows="3" required></textarea>
                     </div>
                     <p class="required mt-3">*campi obbligatori</p>
-                    <button type="submit" class="btn btn-primary my-3">Invia messaggio</button>
+                    <button type="submit" class="btn btn-primary my-3" :disabled="loading">
+                        {{ loading? 'Invio in corso..': 'Invia messaggio' }}
+                    </button>
                 </form>
             </div>
         </div>
