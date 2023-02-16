@@ -103,6 +103,8 @@ export default {
 </template>
 
 <style lang="scss">
+@import "../assets/scss/style.scss";
+
 .main_title {
     color: black;
     font-weight: 800;
@@ -116,13 +118,13 @@ export default {
 }
 
 .fancy {
-    color: #ff5a5f;
+    color: $primary;
 }
 
 .show_button {
     display: inline-block;
     color: white;
-    background-color: #ff5a5f;
+    background-color: $primary;
     padding: 10px;
     text-decoration: none;
     border-radius: 20px;
@@ -133,7 +135,7 @@ export default {
 
 .show_button:hover {
     transition: 0.4s;
-    color: #ff5a5f;
+    color: $primary;
     background-color: white;
 }
 
