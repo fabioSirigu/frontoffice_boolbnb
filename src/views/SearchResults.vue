@@ -116,65 +116,68 @@ export default {
                         Filtra i risultati
                       </button>
 
-                    <!-- Modal -->
-                    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                      <div class="modal-dialog">
-                        <div class="modal-content">
-                          <div class="modal-header">
-                            <h1 class="modal-title fs-5" id="exampleModalLabel">
-                              Di cos'hai bisogno?
-                            </h1>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                          </div>
-                          <div class="modal-body">
-                            <div class="filters_wrapper">
-                              <div class="filters_elements p-3 d-flex justify-content-center flex-column">
-                                <label class="mb-2" for="services">Di quante camere hai bisogno?</label>
-                                <input class="search_header mb-4" type="number" placeholder="Quante camere?" v-model="rooms"/>
-                                <label class="mb-2" for="services">Quanti letti servono?</label>
-                                <input class="search_header mb-4" type="number" placeholder="Quante letti?" v-model="beds"/>
-                                <label class="mb-2" for="services">Seleziona i servizi:</label>
-                                <select class="multiple_filter" v-model="selectedServices" id="services" multiple>
-                                  <option v-for="service in services.data" :key="service.id" :value="service.slug">
-                                    {{ service.title }}
-                                  </option>
-                                </select>
+                      <!-- Modal -->
+                      <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                        aria-hidden="true">
+                        <div class="modal-dialog">
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              <h1 class="modal-title fs-5" id="exampleModalLabel">
+                                Di cos'hai bisogno?
+                              </h1>
+                              <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                              <div class="filters_wrapper">
+                                <div class="filters_elements p-3 d-flex justify-content-center flex-column">
+                                  <label class="mb-2" for="services">Di quante camere hai bisogno?</label>
+                                  <input class="search_header mb-4" type="number" placeholder="Quante camere?"
+                                    v-model="rooms" />
+                                  <label class="mb-2" for="services">Quanti letti servono?</label>
+                                  <input class="search_header mb-4" type="number" placeholder="Quante letti?"
+                                    v-model="beds" />
+                                  <label class="mb-2" for="services">Seleziona i servizi:</label>
+                                  <select class="multiple_filter" v-model="selectedServices" id="services" multiple>
+                                    <option v-for="service in services.data" :key="service.id" :value="service.slug">
+                                      {{ service.title }}
+                                    </option>
+                                  </select>
+                                </div>
+                              </div>
+                              <div class="modal-footer">
+                                <button type="button" class="btn modal_button_close"
+                                  data-bs-dismiss="modal">Annulla</button>
+                                <button type="button" class="btn modal_button_salva" data-bs-dismiss="modal"
+                                  @click="filterHomes">Scopri i risultati</button>
                               </div>
                             </div>
-                            <div class="modal-footer">
-                              <button type="button" class="btn modal_button_close"
-                                data-bs-dismiss="modal">Annulla</button>
-                              <button type="button" class="btn modal_button_salva" data-bs-dismiss="modal"
-                                @click="filterHomes">Scopri i risultati</button>
-                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="home_results_elements">
+                    <div class="row align-items-center align-content-start">
+                      <div class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 col-xxl-3 text-center"
+                        v-for="home in filteredRoomServicesHomes">
+                        <div class="single_home_contents p-2">
+                          <img class="home_image" :src="imageConverter(home.cover_image)">
+                          <div class="card-body justify-content-center mt-2">
+                            <h5 class="card_title bold card-title text-center py-3">
+                              {{ trimBody(home.title) }}
+                            </h5>
+                            <router-link :to="{ name: 'single-home', params: { slug: home.slug } }">Leggi di
+                              più</router-link>
                           </div>
                         </div>
                       </div>
                     </div>
                   </div>
                 </div>
-                <div class="home_results_elements">
-                  <div class="row align-items-center align-content-start">
-                    <div class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 col-xxl-3 text-center"
-                      v-for="home in filteredRoomServicesHomes">
-                      <div class="single_home_contents p-2">
-                        <img class="home_image" :src="imageConverter(home.cover_image)">
-                        <div class="card-body justify-content-center mt-2">
-                          <h5 class="card_title bold card-title text-center py-3">
-                            {{ trimBody(home.title) }}
-                          </h5>
-                          <router-link :to="{ name: 'single-home', params: { slug: home.slug } }">Leggi di
-                            più</router-link>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+
               </div>
               <div v-else>
-                <h1 class="main_title search_title text-center black">
-                  Nessun risultato
-                </h1>
                 <div class="titles_elements text-center">
                   <h1 class="main_title search_title black">
                     Affina la tua ricerca
@@ -203,8 +206,13 @@ export default {
                               <div class="filters_wrapper">
                                 <div class="filters_elements p-3 d-flex justify-content-center flex-column">
                                   <label class="mb-2" for="services">Di quante camere hai bisogno?</label>
+
                                   <input class="search_header mb-4" type="number" placeholder="Quante camere?"
                                     v-model="rooms" />
+                                  <label class="mb-2" for="services">Quanti letti servono?</label>
+                                  <input class="search_header mb-4" type="number" placeholder="Quante letti?"
+                                    v-model="beds" />
+
                                   <label class="mb-2" for="services">Seleziona i servizi:</label>
                                   <select class="multiple_filter" v-model="selectedServices" id="services" multiple>
                                     <option v-for="service in services.data" :key="service.id" :value="service.slug">
@@ -236,8 +244,7 @@ export default {
                 <div class="button_filter_wrapper py-3">
                   <div class="button_filter_elements">
                     <!-- Button trigger modal -->
-                    <button type="button" class="btn modal_filter" data-bs-toggle="modal"
-                      data-bs-target="#exampleModal">
+                    <button type="button" class="modal_filter" data-bs-toggle="modal" data-bs-target="#exampleModal">
                       Filtra i risultati
                     </button>
 
@@ -256,11 +263,11 @@ export default {
                             <div class="filters_wrapper">
                               <div class="filters_elements p-3 d-flex justify-content-center flex-column">
                                 <label class="mb-2" for="services">Di quante camere hai bisogno?</label>
-
-                                <input class="search_header mb-4" type="number" placeholder="Quante camere?" v-model="rooms"/>
+                                <input class="search_header mb-4" type="number" placeholder="Quante camere?"
+                                  v-model="rooms" />
                                 <label class="mb-2" for="services">Quanti letti servono?</label>
-                                <input class="search_header mb-4" type="number" placeholder="Quante letti?" v-model="beds"/>
-
+                                <input class="search_header mb-4" type="number" placeholder="Quante letti?"
+                                  v-model="beds" />
                                 <label class="mb-2" for="services">Seleziona i servizi:</label>
                                 <select class="multiple_filter" v-model="selectedServices" id="services" multiple>
                                   <option v-for="service in services.data" :key="service.id" :value="service.slug">
@@ -282,60 +289,11 @@ export default {
                   </div>
                 </div>
               </div>
-            </div>
-          </div>
-          <div v-else>
-            <div class="titles_elements text-center">
-              <h1 class="main_title search_title black">
-                  Affina la tua ricerca
-              </h1>
-              <div class="button_filter_wrapper py-3">
-                <div class="button_filter_elements">
-                  <!-- Button trigger modal -->
-                  <button type="button" class="btn modal_filter" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                    Filtra i risultati
-                  </button>
-
-                  <!-- Modal -->
-                  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                    <div class="modal-dialog">
-                      <div class="modal-content">
-                        <div class="modal-header">
-                          <h1 class="modal-title fs-5" id="exampleModalLabel">
-                            Di cos'hai bisogno?
-                          </h1>
-                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                          <div class="filters_wrapper">
-                            <div class="filters_elements p-3 d-flex justify-content-center flex-column">
-                              <label class="mb-2" for="services">Di quante camere hai bisogno?</label>
-                              <input class="search_header mb-4" type="number" placeholder="Quante camere?" v-model="rooms"/>
-                              <label class="mb-2" for="services">Quanti letti servono?</label>
-                                <input class="search_header mb-4" type="number" placeholder="Quante letti?" v-model="beds"/>
-                              <label class="mb-2" for="services">Seleziona i servizi:</label>
-                              <select class="multiple_filter" v-model="selectedServices" id="services" multiple>
-                                <option v-for="service in services.data" :key="service.id" :value="service.slug">
-                                  {{ service.title }}
-                                </option>
-                              </select>
-                            </div>
-                          </div>
-                        </div>
-                        <div class="modal-footer">
-                          <button type="button" class="btn modal_button_close" data-bs-dismiss="modal">Annulla</button>
-                          <button type="button" class="btn modal_button_salva" data-bs-dismiss="modal" @click="filterHomes">Scopri i risultati</button>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-            </div>
-          </div>
-            </div>
-            <div class="home_results_elements">
-              <div class="row align-items-center align-content-start">
-                <div class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 col-xxl-3 text-center" v-for="home in filteredHomes">
-                  <div class="single_home_contents p-2">
+              <div class="home_results_elements">
+                <div class="row align-items-center align-content-start">
+                  <div class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 col-xxl-3 text-center"
+                    v-for="home in filteredHomes">
+                    <div class="single_home_contents p-2">
 
                       <img class="home_image" :src="imageConverter(home.cover_image)">
                       <div class="card-body justify-content-center mt-2">
