@@ -125,8 +125,7 @@ export default {
                               <h1 class="modal-title fs-5" id="exampleModalLabel">
                                 Di cos'hai bisogno?
                               </h1>
-                              <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                aria-label="Close"></button>
+                              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
                             <div class="modal-body">
                               <div class="filters_wrapper">
@@ -199,8 +198,7 @@ export default {
                               <h1 class="modal-title fs-5" id="exampleModalLabel">
                                 Di cos'hai bisogno?
                               </h1>
-                              <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                aria-label="Close"></button>
+                              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
                             <div class="modal-body">
                               <div class="filters_wrapper">
@@ -278,8 +276,7 @@ export default {
                             </div>
                           </div>
                           <div class="modal-footer">
-                            <button type="button" class="btn modal_button_close"
-                              data-bs-dismiss="modal">Annulla</button>
+                            <button type="button" class="btn modal_button_close" data-bs-dismiss="modal">Annulla</button>
                             <button type="button" class="btn modal_button_salva" data-bs-dismiss="modal"
                               @click="filterHomes">Scopri i risultati</button>
                           </div>
