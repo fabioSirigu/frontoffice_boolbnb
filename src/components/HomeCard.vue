@@ -33,22 +33,14 @@ export default {
 </script>
 
 <template>
-    <div class="single_home_wrapper">
-        <div class="single_home_elements">
-            <div class="row align-items-center align-content-start">
-                <div class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 col-xxl-3 text-center ">
-                    <div class="single_home_contents p-2">
-                        <img class="home_image" :src="imageConverter(home.cover_image)">
-                        <div class="card-body justify-content-center mt-2">
-                            <h5 class="card_title bold card-title text-center py-3">
-                                {{ trimBody(home.title) }}
-                            </h5>
-                            <router-link :to="{ name: 'single-home', params: { slug: home.slug } }">Leggi di
-                                più</router-link>
-                        </div>
-                    </div>
-                </div>
-            </div>
+    <div class="single_home_contents col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 col-xxl-3 text-center p-2">
+        <img class="home_image" :src="imageConverter(home.cover_image)">
+        <div class="card-body justify-content-center mt-2">
+            <h5 class="card_title bold card-title text-center py-3">
+                {{ trimBody(home.title) }}
+            </h5>
+            <router-link :to="{ name: 'single-home', params: { slug: home.slug } }">Leggi di
+                più</router-link>
         </div>
     </div>
 </template>
