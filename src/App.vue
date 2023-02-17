@@ -1,13 +1,11 @@
 <script>
 import HeaderContent from './components/HeaderContent.vue'
 import FooterContent from './components/FooterContent.vue'
-import MainContent from './components/MainContent.vue'
 
 export default {
   name: 'BoolBnb App',
   components: {
     HeaderContent,
-    MainContent,
     FooterContent
   },
   data() {
@@ -29,6 +27,4 @@ export default {
   <FooterContent></FooterContent>
 </template>
 
-<style scoped>
-
-</style>
+<style scoped></style>
