@@ -73,42 +73,18 @@ export default {
             <div class="search_wrapper">
                 <div class="search_elements">
                     <div class="row align-items-center align-content-start">
-                        <!-- <div>
-                                                                            <div class="alert alert-danger alert-dismissible fade show d-flex justify-content-between align-items-center"
-                                                                                role="alert">
-                                                                                <p class="p-0 m-0">
-                                                                                    Nessuna corrispondenza.
-                                                                                </p>
-                                                                                <button type="button" class="close btn close_button_alert" data-dismiss="alert"
-                                                                                    aria-label="Close">
-                                                                                    <span aria-hidden="true">&times;</span>
-                                                                                </button>
-                                                                            </div>
-                                                                        </div>
-                                                                        <div class="row align-items-center align-content-start">
-                                                                            <div class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 col-xxl-3 text-center "
-                                                                                v-for="home in filteredHomes">
-                                                                                <div class="single_home_contents p-2">
-                                                                                    <img class="home_image" :src="imageConverter(home.cover_image)">
-                                                                                    <div class="card-body justify-content-center mt-2">
-                                                                                        <h5 class="card_title bold card-title text-center py-3">
-                                                                                            {{ trimBody(home.title) }}
-                                                                                        </h5>
-                                                                                        <router-link :to="{ name: 'single-home', params: { slug: home.slug } }">Leggi di
-                                                                                            più</router-link>
 
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
-                                                                        </div> -->
                     </div>
                 </div>
             </div>
             <div class="homes_wrapper">
-                <!-- <h1 class="secondary_title text-center black p-4">
-                                                                                                            In primo piano
-                                                                                                        </h1> -->
-                <HomeCard v-for="home in homes.data" :home="home" />
+                <div class="single_home_wrapper">
+                    <div class="single_home_elements">
+                        <div class="row align-items-center align-content-start">
+                            <HomeCard v-for="home in homes.data" :home="home" />
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
