@@ -76,7 +76,6 @@ export default {
 </script>
 
 <template>
-
     <div class="single_home_view">
         <div class="container">
             <router-link class="my-btn" :to="{ name: 'homes' }">Torna indietro</router-link>
@@ -138,7 +137,7 @@ export default {
                         </div>
                         <p class="required mt-3">*campi obbligatori</p>
                         <button type="submit" class="btn btn-primary my-3" :disabled="loading">
-                            {{ loading? 'Invio in corso..': 'Invia messaggio' }}
+                            {{ loading ? 'Invio in corso..' : 'Invia messaggio' }}
                         </button>
                     </form>
                 </div>
