@@ -46,6 +46,8 @@ export default {
 </template>
 
 <style lang="scss">
+@import "../assets/scss/style.scss";
+
 .card_title {
     font-size: 15px;
 }
