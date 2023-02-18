@@ -33,7 +33,7 @@ export default {
       }
       return "https://htmlcolors.com/brand-image/airbnb.png";
     },
-    trimBody(text) {
+    trimBody(text) {prego
       if (text.length > this.max) {
         return text.slice(0, this.max) + '...'
       }
@@ -47,7 +47,7 @@ export default {
         console.error(error)
       }
     },
-    async filterHomes() {
+    async filterSearch() {
       try {
         const response = await axios.get(this.api_url + '/api/homes');
         let searchFilteredHomes = response.data.data;
@@ -93,6 +93,30 @@ export default {
         }
 
         this.filteredRoomServicesHomes = searchFilteredHomes;
+      } catch (error) {
+        console.error(error);
+      }
+    },
+    async filterHomess() {
+      try {
+        const params = {};
+        if (this.rooms) {
+          params.rooms = this.rooms;
+        }
+        if (this.beds) {
+          params.beds = this.beds;
+        }
+        if (this.selectedServices.length > 0) {
+          params.services = this.selectedServices.join(',');
+        }
+        if (this.latitude && this.longitude && this.radius) {
+          params.latitude = this.latitude;
+          params.longitude = this.longitude;
+          params.radius = parseInt(this.radius);
+        }
+
+        const response = await axios.get(this.api_url + '/api/homes/filter/', { params });
+        this.filteredRoomServicesHomes = response.data.data;
       } catch (error) {
         console.error(error);
       }
@@ -166,7 +190,7 @@ export default {
                                 <button type="button" class="btn modal_button_close"
                                   data-bs-dismiss="modal">Annulla</button>
                                 <button type="button" class="btn modal_button_salva" data-bs-dismiss="modal"
-                                  @click="filterHomes">Scopri i risultati</button>
+                                  @click="filterSearch">Scopri i risultati</button>
                               </div>
                             </div>
                           </div>
@@ -242,7 +266,7 @@ export default {
                               <button type="button" class="btn modal_button_close"
                                 data-bs-dismiss="modal">Annulla</button>
                               <button type="button" class="btn modal_button_salva" data-bs-dismiss="modal"
-                                @click="filterHomes">Scopri i risultati</button>
+                                @click="filterSearch">Scopri i risultati</button>
                             </div>
                           </div>
                         </div>
@@ -299,7 +323,7 @@ export default {
                           <div class="modal-footer">
                             <button type="button" class="btn modal_button_close" data-bs-dismiss="modal">Annulla</button>
                             <button type="button" class="btn modal_button_salva" data-bs-dismiss="modal"
-                              @click="filterHomes">Scopri i risultati</button>
+                              @click="filterSearch">Scopri i risultati</button>
                           </div>
                         </div>
                       </div>
