@@ -92,13 +92,36 @@ export default {
       await this.searchHomes();
       this.search();
       this.searchActive = true
+    },
+    handleClickOutside(event) {
+      const dropdown = this.$el.querySelector('ul');
+      if (!dropdown.contains(event.target)) {
+        this.query = '';
+        this.addresses = [];
+      }
+    },
+    handleClickOutside(event) {
+      if (!this.$refs.dropdown.contains(event.target)) {
+        this.addresses = [];
+      }
+    },
+    emptyQueryAndAdresses() {
+      this.query = '';
+      this.addresses = [];
     }
+  },
+  mounted() {
+    document.addEventListener('click', this.handleClickOutside);
+  },
+  beforeDestroy() {
+    document.removeEventListener('click', this.handleClickOutside);
   }
 }
+
 </script>
 
 <template>
-  <div class="header_wrapper">
+  <div class="header_wrapper" @keyup.esc="emptyQueryAndAdresses()">
     <div class="header_elements">
       <div class="row justify-content-around align-items-center mx-0">
         <div
@@ -112,10 +135,10 @@ export default {
         <div
           class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-4 col-xxl-4 justify-content-sm-center justify-content-md-center justify-content-lg-center justify-content-xl-start justify-content-xxl-start center p-4">
           <div class="search_wrapper d-flex justify-content-center align-items-center gap-3">
-            <input class="search_header" @keyup.enter="searchHomesAndSearch" type="text" placeholder="Dimmi una Città o un Indirizzo.." v-model="query"
-              @input="searchAddress" />
+            <input class="search_header" @keyup.enter="searchHomesAndSearch" type="text"
+              placeholder="Dimmi una Città o un Indirizzo.." v-model="query" @input="searchAddress" />
             <div v-if="searchActive === false" class="dropdown_menu_search d-flex flex-column justify-content-start">
-              <ul v-if="addresses.length > 0">
+              <ul v-if="addresses.length > 0" ref="dropdown">
                 <li class="dropdown_list_element" v-for="address in addresses" @click="selectAddress(address)">
                   {{ address.address.freeformAddress }}
                 </li>
