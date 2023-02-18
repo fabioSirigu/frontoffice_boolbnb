@@ -33,7 +33,7 @@ export default {
       }
       return "https://htmlcolors.com/brand-image/airbnb.png";
     },
-    trimBody(text) {prego
+    trimBody(text) {
       if (text.length > this.max) {
         return text.slice(0, this.max) + '...'
       }
