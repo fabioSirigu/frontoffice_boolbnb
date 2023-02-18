@@ -18,8 +18,8 @@ export default {
       searchFilteredHomes: [],
       filteredRoomServicesHomes: [],
       functionActive: false,
-      latitude : this.$route.query.latitude,
-      longitude : this.$route.query.longitude
+      latitude: this.$route.query.latitude,
+      longitude: this.$route.query.longitude
     };
   },
   props: [
@@ -150,7 +150,7 @@ export default {
                   <div class="button_filter_wrapper py-3">
                     <div class="button_filter_elements">
                       <!-- Button trigger modal -->
-                      <button type="button" class="btn modal_filter" data-bs-toggle="modal"
+                      <button type="button" class="btn modal_filter primary" data-bs-toggle="modal"
                         data-bs-target="#exampleModal">
                         Filtra i risultati
                       </button>
@@ -220,12 +220,12 @@ export default {
               <div v-else>
                 <div class="titles_elements text-center">
                   <h1 class="main_title search_title black py-3">
-                    Affina la tua ricerca
+                    Nessun risultato... Affina la tua ricerca
                   </h1>
                   <div class="button_filter_wrapper py-3">
                     <div class="button_filter_elements">
                       <!-- Button trigger modal -->
-                      <button type="button" class="btn modal_filter" data-bs-toggle="modal"
+                      <button type="button" class="btn modal_filter primary" data-bs-toggle="modal"
                         data-bs-target="#exampleModal">
                         Filtra i risultati
                       </button>
@@ -284,7 +284,8 @@ export default {
                 <div class="button_filter_wrapper py-3">
                   <div class="button_filter_elements">
                     <!-- Button trigger modal -->
-                    <button type="button" class="modal_filter" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                    <button type="button" class="btn modal_filter primary" data-bs-toggle="modal"
+                      data-bs-target="#exampleModal">
                       Filtra i risultati
                     </button>
 
@@ -303,8 +304,8 @@ export default {
                             <div class="filters_wrapper">
                               <div class="filters_elements p-3 d-flex justify-content-center flex-column">
                                 <label class="mb-2" for="rooms">Seleziona un raggio</label>
-                                  <input class="search_header mb-4" type="number" placeholder="In che raggio?"
-                                    v-model="radius" />
+                                <input class="search_header mb-4" type="number" placeholder="In che raggio?"
+                                  v-model="radius" />
                                 <label class="mb-2" for="rooms">Di quante camere hai bisogno?</label>
                                 <input class="search_header mb-4" type="number" placeholder="Quante camere?"
                                   v-model="rooms" />
@@ -336,12 +337,20 @@ export default {
                   <div class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 col-xxl-3 text-center"
                     v-for="home in filteredHomes">
                     <div class="single_home_contents p-2">
-
-                      <img class="home_image" :src="imageConverter(home.cover_image)">
                       <div class="card-body justify-content-center mt-2">
                         <h5 class="card_title bold card-title text-center py-3">
                           {{ trimBody(home.title) }}
                         </h5>
+                      </div>
+                      <div class="image">
+                        <img class="home_image" :src="imageConverter(home.cover_image)">
+                      </div>
+                      <div class="details">
+                        <ul>
+                          <li>{{ home.rooms }} stanze</li>
+                          <li>{{ home.beds }} letti</li>
+                          <li>{{ home.bathrooms }} bagni</li>
+                        </ul>
                         <router-link :to="{ name: 'single-home', params: { slug: home.slug } }">Leggi di
                           più</router-link>
                       </div>
@@ -364,7 +373,6 @@ export default {
   border-radius: 20px;
 }
 
-
 .multiple_filter {
   border: 1px solid rgba(0, 0, 0, 0.175);
   border-radius: 20px;
@@ -374,61 +382,11 @@ export default {
   font-size: 13px;
 }
 
-.modal_filter {
-  display: inline-block;
-  color: white;
-  background-color: $primary;
-  padding: 10px;
-  text-decoration: none;
-  border-radius: 20px;
-  width: 150px;
-  height: 100%;
-  font-size: 13px;
-  text-align: center;
-  border: none;
-}
-
-.modal_filter:hover {
-  transition: 0.4s;
-  color: $primary;
-  background-color: white;
-  cursor: pointer;
-}
-
-.modal_button_close {
-  color: white;
-  background-color: black;
-  padding: 10px;
-  text-decoration: none;
-  border-radius: 20px;
-  width: 100px;
-  height: 100%;
-  font-size: 13px;
-  text-align: center;
-}
-
-.modal_button_close:hover {
-  transition: 0.4s;
-  background-color: white;
-  cursor: pointer;
-}
-
-.modal_button_salva {
-  color: white;
-  background-color: $primary;
-  padding: 10px;
-  text-decoration: none;
-  border-radius: 20px;
-  width: 150px;
-  height: 100%;
-  font-size: 13px;
-  text-align: center;
-}
-
-.modal_button_salva:hover {
-  transition: 0.4s;
-  color: black;
-  background-color: white;
-  cursor: pointer;
+.home_image {
+  width: 300px;
+  height: 300px;
+  aspect-ratio: 1/1;
+  border-radius: 25px;
+  margin-bottom: 5px;
 }
 </style>
