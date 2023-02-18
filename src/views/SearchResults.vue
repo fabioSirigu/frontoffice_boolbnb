@@ -10,23 +10,20 @@ export default {
       api_url: store.api_base_url,
       error: '',
       max: 30,
-      results: [],
-      rooms: null,
+      rooms: '',
       services: [],
-      beds: [],
+      beds: '',
       selectedServices: [],
       searchFilteredHomes: [],
       filteredRoomServicesHomes: [],
-      functionActive: false
-
+      functionActive: false,
+      latitude : this.$route.query.latitude,
+      longitude : this.$route.query.longitude
     };
   },
   props: [
     'filteredHomes'
   ],
-  created() {
-    this.results = this.$route.query.results;
-  },
   methods: {
     imageConverter(way) {
       console.log(way);
@@ -53,6 +50,7 @@ export default {
       try {
         const response = await axios.get(this.api_url + '/api/homes');
         let searchFilteredHomes = response.data.data;
+        console.log(searchFilteredHomes)
         this.functionActive = true
 
         // Applica il filtro per il numero di stanze
@@ -98,14 +96,14 @@ export default {
         <div class="homes_wrapper">
           <div class="homes_elements vh-100">
             <div v-if="this.filteredHomes.length === 0">
-              <h1 class="main_title search_title text-center black">
+              <h1 class="main_title search_title text-center black py-3">
                 Fai una ricerca
               </h1>
             </div>
             <div v-else-if="functionActive">
               <div v-if="filteredRoomServicesHomes.length > 0">
                 <div class="titles_elements text-center">
-                  <h1 class="main_title search_title black">
+                  <h1 class="main_title search_title black py-3">
                     Affina la tua ricerca
                   </h1>
                   <div class="button_filter_wrapper py-3">
@@ -130,10 +128,10 @@ export default {
                             <div class="modal-body">
                               <div class="filters_wrapper">
                                 <div class="filters_elements p-3 d-flex justify-content-center flex-column">
-                                  <label class="mb-2" for="services">Di quante camere hai bisogno?</label>
+                                  <label class="mb-2" for="rooms">Di quante camere hai bisogno?</label>
                                   <input class="search_header mb-4" type="number" placeholder="Quante camere?"
                                     v-model="rooms" />
-                                  <label class="mb-2" for="services">Quanti letti servono?</label>
+                                  <label class="mb-2" for="beds">Quanti letti servono?</label>
                                   <input class="search_header mb-4" type="number" placeholder="Quante letti?"
                                     v-model="beds" />
                                   <label class="mb-2" for="services">Seleziona i servizi:</label>
@@ -178,7 +176,7 @@ export default {
               </div>
               <div v-else>
                 <div class="titles_elements text-center">
-                  <h1 class="main_title search_title black">
+                  <h1 class="main_title search_title black py-3">
                     Affina la tua ricerca
                   </h1>
                   <div class="button_filter_wrapper py-3">
@@ -203,14 +201,12 @@ export default {
                             <div class="modal-body">
                               <div class="filters_wrapper">
                                 <div class="filters_elements p-3 d-flex justify-content-center flex-column">
-                                  <label class="mb-2" for="services">Di quante camere hai bisogno?</label>
-
+                                  <label class="mb-2" for="rooms">Di quante camere hai bisogno?</label>
                                   <input class="search_header mb-4" type="number" placeholder="Quante camere?"
                                     v-model="rooms" />
-                                  <label class="mb-2" for="services">Quanti letti servono?</label>
+                                  <label class="mb-2" for="beds">Quanti letti servono?</label>
                                   <input class="search_header mb-4" type="number" placeholder="Quante letti?"
                                     v-model="beds" />
-
                                   <label class="mb-2" for="services">Seleziona i servizi:</label>
                                   <select class="multiple_filter" v-model="selectedServices" id="services" multiple>
                                     <option v-for="service in services.data" :key="service.id" :value="service.slug">
@@ -236,7 +232,7 @@ export default {
             </div>
             <div v-else>
               <div class="titles_elements text-center">
-                <h1 class="main_title search_title black">
+                <h1 class="main_title search_title black py-3">
                   Affina la tua ricerca
                 </h1>
                 <div class="button_filter_wrapper py-3">
@@ -260,10 +256,10 @@ export default {
                           <div class="modal-body">
                             <div class="filters_wrapper">
                               <div class="filters_elements p-3 d-flex justify-content-center flex-column">
-                                <label class="mb-2" for="services">Di quante camere hai bisogno?</label>
+                                <label class="mb-2" for="rooms">Di quante camere hai bisogno?</label>
                                 <input class="search_header mb-4" type="number" placeholder="Quante camere?"
                                   v-model="rooms" />
-                                <label class="mb-2" for="services">Quanti letti servono?</label>
+                                <label class="mb-2" for="beds">Quanti letti servono?</label>
                                 <input class="search_header mb-4" type="number" placeholder="Quante letti?"
                                   v-model="beds" />
                                 <label class="mb-2" for="services">Seleziona i servizi:</label>
