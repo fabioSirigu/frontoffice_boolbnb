@@ -94,6 +94,7 @@ export default {
         aspect-ratio: 1/1;
         border-radius: 25px;
         margin-bottom: 5px;
+        object-fit: cover;
     }
 
     .details_card {
