@@ -51,9 +51,9 @@ export default {
       try {
         const response = await axios.get(this.api_url + '/api/homes');
         let searchFilteredHomes = response.data.data;
-        console.log(searchFilteredHomes)
-        console.log(this.radius)
-        this.functionActive = true
+        console.log(searchFilteredHomes);
+        console.log(this.radius);
+        this.functionActive = true;
 
         // Applica il filtro per il numero di stanze
         if (this.rooms) {
@@ -74,6 +74,21 @@ export default {
               }
             }
             return true;
+          });
+        }
+
+        // Applica il filtro per la distanza
+        if (this.latitude && this.longitude && this.radius) {
+          const R = 6371; // radius of the earth in km
+          searchFilteredHomes = searchFilteredHomes.filter(home => {
+            const dLat = (home.latitude - this.latitude) * Math.PI / 180;
+            const dLon = (home.longitude - this.longitude) * Math.PI / 180;
+            const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+              Math.cos(this.latitude * Math.PI / 180) * Math.cos(home.latitude * Math.PI / 180) *
+              Math.sin(dLon / 2) * Math.sin(dLon / 2);
+            const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+            const distance = R * c;
+            return distance <= this.radius;
           });
         }
 
