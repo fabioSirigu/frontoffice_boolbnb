@@ -10,32 +10,30 @@ export default {
       api_url: store.api_base_url,
       error: '',
       max: 30,
-      results: [],
-      rooms: null,
       services: [],
-      beds: [],
+      rooms: '',
+      beds: '',
+      radius: '',
       selectedServices: [],
       searchFilteredHomes: [],
       filteredRoomServicesHomes: [],
-      functionActive: false
-
+      functionActive: false,
+      latitude : this.$route.query.latitude,
+      longitude : this.$route.query.longitude
     };
   },
   props: [
     'filteredHomes'
   ],
-  created() {
-    this.results = this.$route.query.results;
-  },
   methods: {
     imageConverter(way) {
-      console.log(way);
+      //console.log(way);
       if (way) {
         return this.api_url + "/storage/" + way;
       }
       return "https://htmlcolors.com/brand-image/airbnb.png";
     },
-    trimBody(text) {
+    trimBody(text) {prego
       if (text.length > this.max) {
         return text.slice(0, this.max) + '...'
       }
@@ -49,11 +47,13 @@ export default {
         console.error(error)
       }
     },
-    async filterHomes() {
+    async filterSearch() {
       try {
         const response = await axios.get(this.api_url + '/api/homes');
         let searchFilteredHomes = response.data.data;
-        this.functionActive = true
+        console.log(searchFilteredHomes);
+        console.log(this.radius);
+        this.functionActive = true;
 
         // Applica il filtro per il numero di stanze
         if (this.rooms) {
@@ -77,7 +77,46 @@ export default {
           });
         }
 
+        // Applica il filtro per la distanza
+        if (this.latitude && this.longitude && this.radius) {
+          const R = 6371; // radius of the earth in km
+          searchFilteredHomes = searchFilteredHomes.filter(home => {
+            const dLat = (home.latitude - this.latitude) * Math.PI / 180;
+            const dLon = (home.longitude - this.longitude) * Math.PI / 180;
+            const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+              Math.cos(this.latitude * Math.PI / 180) * Math.cos(home.latitude * Math.PI / 180) *
+              Math.sin(dLon / 2) * Math.sin(dLon / 2);
+            const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+            const distance = R * c;
+            return distance <= this.radius;
+          });
+        }
+
         this.filteredRoomServicesHomes = searchFilteredHomes;
+      } catch (error) {
+        console.error(error);
+      }
+    },
+    async filterHomess() {
+      try {
+        const params = {};
+        if (this.rooms) {
+          params.rooms = this.rooms;
+        }
+        if (this.beds) {
+          params.beds = this.beds;
+        }
+        if (this.selectedServices.length > 0) {
+          params.services = this.selectedServices.join(',');
+        }
+        if (this.latitude && this.longitude && this.radius) {
+          params.latitude = this.latitude;
+          params.longitude = this.longitude;
+          params.radius = parseInt(this.radius);
+        }
+
+        const response = await axios.get(this.api_url + '/api/homes/filter/', { params });
+        this.filteredRoomServicesHomes = response.data.data;
       } catch (error) {
         console.error(error);
       }
@@ -98,14 +137,14 @@ export default {
         <div class="homes_wrapper">
           <div class="homes_elements vh-100">
             <div v-if="this.filteredHomes.length === 0">
-              <h1 class="main_title search_title text-center black">
+              <h1 class="main_title search_title text-center black py-3">
                 Fai una ricerca
               </h1>
             </div>
             <div v-else-if="functionActive">
               <div v-if="filteredRoomServicesHomes.length > 0">
                 <div class="titles_elements text-center">
-                  <h1 class="main_title search_title black">
+                  <h1 class="main_title search_title black py-3">
                     Affina la tua ricerca
                   </h1>
                   <div class="button_filter_wrapper py-3">
@@ -130,10 +169,13 @@ export default {
                             <div class="modal-body">
                               <div class="filters_wrapper">
                                 <div class="filters_elements p-3 d-flex justify-content-center flex-column">
-                                  <label class="mb-2" for="services">Di quante camere hai bisogno?</label>
+                                  <label class="mb-2" for="rooms">Seleziona un raggio</label>
+                                  <input class="search_header mb-4" type="number" placeholder="In che raggio?"
+                                    v-model="radius" />
+                                  <label class="mb-2" for="rooms">Di quante camere hai bisogno?</label>
                                   <input class="search_header mb-4" type="number" placeholder="Quante camere?"
                                     v-model="rooms" />
-                                  <label class="mb-2" for="services">Quanti letti servono?</label>
+                                  <label class="mb-2" for="beds">Quanti letti servono?</label>
                                   <input class="search_header mb-4" type="number" placeholder="Quante letti?"
                                     v-model="beds" />
                                   <label class="mb-2" for="services">Seleziona i servizi:</label>
@@ -148,7 +190,7 @@ export default {
                                 <button type="button" class="btn modal_button_close"
                                   data-bs-dismiss="modal">Annulla</button>
                                 <button type="button" class="btn modal_button_salva" data-bs-dismiss="modal"
-                                  @click="filterHomes">Scopri i risultati</button>
+                                  @click="filterSearch">Scopri i risultati</button>
                               </div>
                             </div>
                           </div>
@@ -174,11 +216,10 @@ export default {
                     </div>
                   </div>
                 </div>
-
               </div>
               <div v-else>
                 <div class="titles_elements text-center">
-                  <h1 class="main_title search_title black">
+                  <h1 class="main_title search_title black py-3">
                     Affina la tua ricerca
                   </h1>
                   <div class="button_filter_wrapper py-3">
@@ -203,14 +244,15 @@ export default {
                             <div class="modal-body">
                               <div class="filters_wrapper">
                                 <div class="filters_elements p-3 d-flex justify-content-center flex-column">
-                                  <label class="mb-2" for="services">Di quante camere hai bisogno?</label>
-
+                                  <label class="mb-2" for="rooms">Seleziona un raggio</label>
+                                  <input class="search_header mb-4" type="number" placeholder="In che raggio?"
+                                    v-model="radius" />
+                                  <label class="mb-2" for="rooms">Di quante camere hai bisogno?</label>
                                   <input class="search_header mb-4" type="number" placeholder="Quante camere?"
                                     v-model="rooms" />
-                                  <label class="mb-2" for="services">Quanti letti servono?</label>
+                                  <label class="mb-2" for="beds">Quanti letti servono?</label>
                                   <input class="search_header mb-4" type="number" placeholder="Quante letti?"
                                     v-model="beds" />
-
                                   <label class="mb-2" for="services">Seleziona i servizi:</label>
                                   <select class="multiple_filter" v-model="selectedServices" id="services" multiple>
                                     <option v-for="service in services.data" :key="service.id" :value="service.slug">
@@ -224,7 +266,7 @@ export default {
                               <button type="button" class="btn modal_button_close"
                                 data-bs-dismiss="modal">Annulla</button>
                               <button type="button" class="btn modal_button_salva" data-bs-dismiss="modal"
-                                @click="filterHomes">Scopri i risultati</button>
+                                @click="filterSearch">Scopri i risultati</button>
                             </div>
                           </div>
                         </div>
@@ -236,7 +278,7 @@ export default {
             </div>
             <div v-else>
               <div class="titles_elements text-center">
-                <h1 class="main_title search_title black">
+                <h1 class="main_title search_title black py-3">
                   Affina la tua ricerca
                 </h1>
                 <div class="button_filter_wrapper py-3">
@@ -260,10 +302,13 @@ export default {
                           <div class="modal-body">
                             <div class="filters_wrapper">
                               <div class="filters_elements p-3 d-flex justify-content-center flex-column">
-                                <label class="mb-2" for="services">Di quante camere hai bisogno?</label>
+                                <label class="mb-2" for="rooms">Seleziona un raggio</label>
+                                  <input class="search_header mb-4" type="number" placeholder="In che raggio?"
+                                    v-model="radius" />
+                                <label class="mb-2" for="rooms">Di quante camere hai bisogno?</label>
                                 <input class="search_header mb-4" type="number" placeholder="Quante camere?"
                                   v-model="rooms" />
-                                <label class="mb-2" for="services">Quanti letti servono?</label>
+                                <label class="mb-2" for="beds">Quanti letti servono?</label>
                                 <input class="search_header mb-4" type="number" placeholder="Quante letti?"
                                   v-model="beds" />
                                 <label class="mb-2" for="services">Seleziona i servizi:</label>
@@ -278,7 +323,7 @@ export default {
                           <div class="modal-footer">
                             <button type="button" class="btn modal_button_close" data-bs-dismiss="modal">Annulla</button>
                             <button type="button" class="btn modal_button_salva" data-bs-dismiss="modal"
-                              @click="filterHomes">Scopri i risultati</button>
+                              @click="filterSearch">Scopri i risultati</button>
                           </div>
                         </div>
                       </div>

@@ -97,7 +97,7 @@ export default {
           '/' +
           this.radius
         );
-        this.$router.replace({ name: 'search', query: { results: response.data } });
+        this.$router.replace({ name: 'search', query: { results: response.data, latitude: this.latitude, longitude: this.longitude } });
       } catch (error) {
         console.error(error);
       }
