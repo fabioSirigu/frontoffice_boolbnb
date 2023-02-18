@@ -10,9 +10,10 @@ export default {
       api_url: store.api_base_url,
       error: '',
       max: 30,
-      rooms: '',
       services: [],
+      rooms: '',
       beds: '',
+      radius: '',
       selectedServices: [],
       searchFilteredHomes: [],
       filteredRoomServicesHomes: [],
@@ -26,7 +27,7 @@ export default {
   ],
   methods: {
     imageConverter(way) {
-      console.log(way);
+      //console.log(way);
       if (way) {
         return this.api_url + "/storage/" + way;
       }
@@ -51,6 +52,7 @@ export default {
         const response = await axios.get(this.api_url + '/api/homes');
         let searchFilteredHomes = response.data.data;
         console.log(searchFilteredHomes)
+        console.log(this.radius)
         this.functionActive = true
 
         // Applica il filtro per il numero di stanze
@@ -128,6 +130,9 @@ export default {
                             <div class="modal-body">
                               <div class="filters_wrapper">
                                 <div class="filters_elements p-3 d-flex justify-content-center flex-column">
+                                  <label class="mb-2" for="rooms">Seleziona un raggio</label>
+                                  <input class="search_header mb-4" type="number" placeholder="In che raggio?"
+                                    v-model="radius" />
                                   <label class="mb-2" for="rooms">Di quante camere hai bisogno?</label>
                                   <input class="search_header mb-4" type="number" placeholder="Quante camere?"
                                     v-model="rooms" />
@@ -172,7 +177,6 @@ export default {
                     </div>
                   </div>
                 </div>
-
               </div>
               <div v-else>
                 <div class="titles_elements text-center">
@@ -201,6 +205,9 @@ export default {
                             <div class="modal-body">
                               <div class="filters_wrapper">
                                 <div class="filters_elements p-3 d-flex justify-content-center flex-column">
+                                  <label class="mb-2" for="rooms">Seleziona un raggio</label>
+                                  <input class="search_header mb-4" type="number" placeholder="In che raggio?"
+                                    v-model="radius" />
                                   <label class="mb-2" for="rooms">Di quante camere hai bisogno?</label>
                                   <input class="search_header mb-4" type="number" placeholder="Quante camere?"
                                     v-model="rooms" />
@@ -256,6 +263,9 @@ export default {
                           <div class="modal-body">
                             <div class="filters_wrapper">
                               <div class="filters_elements p-3 d-flex justify-content-center flex-column">
+                                <label class="mb-2" for="rooms">Seleziona un raggio</label>
+                                  <input class="search_header mb-4" type="number" placeholder="In che raggio?"
+                                    v-model="radius" />
                                 <label class="mb-2" for="rooms">Di quante camere hai bisogno?</label>
                                 <input class="search_header mb-4" type="number" placeholder="Quante camere?"
                                   v-model="rooms" />
