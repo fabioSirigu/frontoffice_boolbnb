@@ -121,7 +121,7 @@ export default {
 </script>
 
 <template>
-  <div class="header_wrapper" @keyup.esc="emptyQueryAndAdresses()">
+  <div class="header_wrapper shadow-sm" @keyup.esc="emptyQueryAndAdresses()">
     <div class="header_elements">
       <div class="row justify-content-around align-items-center mx-0">
         <div

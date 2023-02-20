@@ -7,6 +7,7 @@ export default {
         return {
             store,
             home: {},
+            services: [],
             success: false,
             loading: true,
             name: '',
@@ -61,7 +62,9 @@ export default {
             .then(response => {
                 if (response.data.success) {
                     this.home = response.data.data
+                    this.services = this.home.services
                     this.loading = false
+
 
                 } else {
                     this.$router.push({ name: 'not-found' })
@@ -90,58 +93,69 @@ export default {
                                 {{ this.home.address }}
                             </h4>
                         </div>
-                        <div class="card-body justify-content-center my-2">
-                            <img class="home-image" :src="store.api_base_url + '/storage/' + home.cover_image">
-                        </div>
-
-                        <div class="details_services">
-                            <div class="details">
-                                <ul class="d-flex">
-                                    <li>{{ this.home.rooms }} stanze</li>
-                                    <li>{{ this.home.beds }} letti</li>
-                                    <li>{{ this.home.bathrooms }} bagni</li>
-                                    <li>{{ this.home.square_meters }}mq</li>
-                                </ul>
+                        <div class="row">
+                            <div class="card-body col-12 col-sm-12 col-lg-6 justify-content-center my-2">
+                                <img class="home-image" :src="store.api_base_url + '/storage/' + home.cover_image">
                             </div>
-                            <div class="services">
-                                <h3>Servizi disponibili</h3>
-                                <ul class="d-flex ">
-                                    <li v-for="service in this.home.services">{{ service.title }}</li>
-                                </ul>
+
+                            <div class="col-12 col-sm-12 col-lg-6">
+                                <div class="details_services">
+                                    <div class="details mb-3">
+                                        <h2>Dettagli</h2>
+                                        <ul class="d-flex">
+                                            <li>{{ this.home.rooms }} stanze</li>
+                                            <li>{{ this.home.beds }} letti</li>
+                                            <li>{{ this.home.bathrooms }} bagni</li>
+                                            <li>{{ this.home.square_meters }}mq</li>
+                                        </ul>
+                                    </div>
+                                    <div v-show="this.services.length > 0" class="services mb-3">
+                                        <h2>Servizi disponibili</h2>
+                                        <ul class="d-flex ">
+                                            <li v-for="service in this.home.services">{{ service.title }}</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div v-if="success && timer !== 0" class="alert alert-success text-start my-3" role="alert">
+                                    Messaggio inviato con successo!
+                                </div>
+                                <div class="card">
+                                    <div class="card-header">
+                                        Contatta il proprietario
+                                    </div>
+
+                                    <div class="card-body">
+                                        <form @submit.prevent="SubmitForm()">
+                                            <div class="row">
+                                                <div class="form-group col-4">
+                                                    <label class="mb-2" for="name">Nome*</label>
+                                                    <input type="text" class="form-control" id="name" v-model="name"
+                                                        required>
+                                                </div>
+                                                <div class="form-group col-8">
+                                                    <label class="mb-2" for="email">Email*</label>
+                                                    <input type="email" class="form-control" id="email" v-model="email"
+                                                        required>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="my-2" for="message">Messaggio*</label>
+                                                <textarea class="form-control" id="message" v-model="message" rows="3"
+                                                    required></textarea>
+                                            </div>
+                                            <p class="required mt-3">*campi obbligatori</p>
+                                            <button type="submit" class="my-btn my-3" :disabled="loading">
+                                                {{ loading ? 'Invio in corso..' : 'Invia messaggio' }}
+                                            </button>
+                                        </form>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div v-if="success && timer !== 0" class="alert alert-success text-start my-3" role="alert">
-                Messaggio inviato con successo!
-            </div>
-            <div class="card">
-                <div class="card-header">
-                    Contatta il proprietario
-                </div>
 
-                <div class="card-body">
-                    <form @submit.prevent="SubmitForm()">
-                        <div class="form-group">
-                            <label class="mb-2" for="name">Nome*</label>
-                            <input type="text" class="form-control" id="name" v-model="name" required>
-                        </div>
-                        <div class="form-group">
-                            <label class="my-2" for="email">Email*</label>
-                            <input type="email" class="form-control" id="email" v-model="email" required>
-                        </div>
-                        <div class="form-group">
-                            <label class="my-2" for="message">Messaggio*</label>
-                            <textarea class="form-control" id="message" v-model="message" rows="3" required></textarea>
-                        </div>
-                        <p class="required mt-3">*campi obbligatori</p>
-                        <button type="submit" class="btn btn-primary my-3" :disabled="loading">
-                            {{ loading ? 'Invio in corso..' : 'Invia messaggio' }}
-                        </button>
-                    </form>
-                </div>
-            </div>
         </div>
     </div>
 </template>
@@ -151,10 +165,11 @@ export default {
 
 .my-btn {
     margin-top: 10px;
+    border: none;
     display: inline-block;
     color: white;
     background-color: $primary;
-    padding: 10px;
+    padding: 10px 5px;
     text-decoration: none;
     border-radius: 20px;
     width: 150px;
@@ -172,34 +187,14 @@ export default {
 
 .home-image {
     width: 100%;
+    aspect-ratio: 1/1;
+    object-fit: cover;
+    border-radius: 5px;
 }
 
-.details {
-    margin-top: 0.75rem;
-    width: 50%;
-    border-bottom: 2px solid lightgrey;
-
-    ul {
-        padding-left: 0;
-
-
-        li {
-            list-style: disc;
-            padding: 0, 5px;
-            margin-right: 1.2rem;
-        }
-
-        li:first-child {
-            list-style: none;
-            padding-left: 0;
-        }
-    }
-
-}
-
+.details,
 .services {
     margin-top: 0.75rem;
-    width: 50%;
     border-bottom: 2px solid lightgrey;
 
     ul {
@@ -217,7 +212,10 @@ export default {
             padding-left: 0;
         }
     }
+
 }
+
+
 
 .required {
     font-size: 12px;
