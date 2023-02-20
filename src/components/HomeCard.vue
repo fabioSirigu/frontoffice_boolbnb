@@ -33,7 +33,7 @@ export default {
 </script>
 
 <template>
-    <div class="single_home_contents col-12 col-sm-12 col-md-6 col-lg-4 col-xl-4 col-xxl-3 p-2">
+    <div class="single_home_contents col-12 col-sm-12 col-md-6 col-lg-4 col-xl-4 col-xxl-3 p-2 my_height">
         <div>
             <router-link class="link-card" :to="{ name: 'single-home', params: { slug: home.slug } }">
                 <div class="image text-center">
@@ -68,6 +68,10 @@ export default {
 
 <style lang="scss">
 @import "../assets/scss/style.scss";
+
+.my_height {
+    height: 450px;
+}
 
 .link-card {
     text-decoration: none;
