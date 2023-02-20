@@ -36,12 +36,12 @@ export default {
     <div class="single_home_contents col-12 col-sm-12 col-md-6 col-lg-4 col-xl-4 col-xxl-3 p-2">
         <div>
             <router-link class="link-card" :to="{ name: 'single-home', params: { slug: home.slug } }">
-                <div class="image">
+                <div class="image text-center">
                     <img class="home_image" :src="imageConverter(home.cover_image)">
                 </div>
                 <div class="details_card">
-                    <div>
-                        <div>
+                    <div class="text-center">
+                        <div class="text-center">
                             <h5 class="card_title bold card-title py-3">
                                 {{ trimBody(home.title) }}
                             </h5>
@@ -103,6 +103,7 @@ export default {
             display: flex;
             padding-left: 0;
             margin-bottom: 0;
+            justify-content: center;
 
             li {
                 list-style: disc;

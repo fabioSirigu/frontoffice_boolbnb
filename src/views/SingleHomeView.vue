@@ -189,31 +189,33 @@ export default {
     width: 100%;
     aspect-ratio: 1/1;
     object-fit: cover;
-    border-radius: 5px;
+    border-radius: 25px;
 }
 
-.details,
-.services {
-    margin-top: 0.75rem;
-    border-bottom: 2px solid lightgrey;
+.details_services {
+    .details,
+    .services {
+        margin-top: 0.75rem;
+        border-bottom: 2px solid lightgrey;
 
-    ul {
-        padding-left: 0;
-
-
-        li {
-            list-style: disc;
-            padding: 0, 5px;
-            margin-right: 1.2rem;
-        }
-
-        li:first-child {
-            list-style: none;
+        ul {
             padding-left: 0;
-        }
-    }
 
-}
+
+            li {
+                list-style: disc;
+                padding: 0, 5px;
+                margin-right: 1.2rem;
+            }
+
+            li:first-child {
+                list-style: none;
+                padding-left: 0;
+            }
+        }
+
+    }
+} 
 
 
 

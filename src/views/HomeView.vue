@@ -77,11 +77,11 @@ export default {
                     </div>
                 </div>
             </div>
-            <div class=" homes_wrapper">
+            <div class="homes_wrapper">
                 <div class="single_home_wrapper">
                     <div class="container px-4 single_home_elements">
                         <div class="row g-5 align-items-center align-content-start">
-                            <HomeCard v-for="home in homes.data" :home="home" />
+                            <HomeCard v-for="home in homes.data" :home="home"/>
                         </div>
                     </div>
                 </div>
