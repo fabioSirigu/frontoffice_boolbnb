@@ -52,45 +52,36 @@ export default {
           this.longitude = data.results[0].position.lon;
           console.log(this.latitude);
           console.log(this.longitude);
+          // Recupera le case tramite la chiamata API al backend
+          try {
+            const homesResponse = await axios.get(
+              store.api_base_url + '/api/homes/' +
+              this.latitude +
+              '/' +
+              this.longitude +
+              '/' +
+              this.radius
+            );
+            console.log(this.filteredhomes = homesResponse.data.data);
+            this.$emit('search-homes-completed', homesResponse.data.data, this.loading = false);
+            this.searchActive = true;
+            // Esegue la ricerca tramite la chiamata API di TomTom
+            try {
+              console.log('lat:', this.latitude, 'lon:', this.longitude);
+              const searchResponse = homesResponse.data.data;
+              this.$router.replace({ name: 'search', query: { results: searchResponse, latitude: this.latitude, longitude: this.longitude } });
+              this.searchActive = true;
+            } catch (error) {
+              console.error(error);
+            }
+          } catch (error) {
+            console.error(error);
+          }
         }
-        // Recupera le case tramite la chiamata API al backend
-        try {
-          const homesResponse = await axios.get(
-            store.api_base_url + '/api/homes/' +
-            this.latitude +
-            '/' +
-            this.longitude +
-            '/' +
-            this.radius
-          );
-          console.log(this.filteredhomes = homesResponse.data.data);
-          this.$emit('search-homes-completed', homesResponse.data.data, this.loading = false);
-          this.searchActive = true
-        } catch (error) {
-          console.error(error);
-        }
-      }
-    },
-    async search() {
-      try {
-        console.log('lat:', this.latitude, 'lon:', this.longitude);
-        const response = await axios.get(
-          store.api_base_url + '/api/search/' +
-          this.latitude +
-          '/' +
-          this.longitude +
-          '/' +
-          this.radius
-        );
-        this.$router.replace({ name: 'search', query: { results: response.data, latitude: this.latitude, longitude: this.longitude } });
-        this.searchActive = true
-      } catch (error) {
-        console.error(error);
       }
     },
     async searchHomesAndSearch() {
       await this.searchHomes();
-      this.search();
       this.searchActive = true
     },
     handleClickOutside(event) {
