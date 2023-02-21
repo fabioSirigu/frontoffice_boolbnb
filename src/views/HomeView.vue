@@ -24,6 +24,17 @@ export default {
                     this.error = error.message;
                 });
         },
+        getSponsored(url) {
+            axios.get(url)
+                .then(response => {
+                    console.log(response.data);
+                    this.sponsored = response.data;
+                })
+                .catch(error => {
+                    console.error(error);
+                    this.error = error.message;
+                });
+        },
         imageConverter(way) {
             console.log(way);
             if (way) {
@@ -45,9 +56,11 @@ export default {
             loading: false,
             max: 30,
             homes: {},
+            sponsored: []
         }
     }, mounted() {
         this.getHomes(this.api_url + "/api/homes");
+        this.getSponsored(this.api_url + "/api/sponsored");
     }
 }
 </script>
@@ -70,6 +83,24 @@ export default {
                     </p>
                 </div>
             </div>
+            <div v-if="this.sponsored.length > 0" class="sponsored_homes">
+                <h1 class="main_title black text-center py-2">
+                   In primo piano
+                </h1>
+                <div class="homes_wrapper">
+                    <div class="single_home_wrapper">
+                        <div class="container px-4 single_home_elements">
+                            <div class="row g-5 align-items-center align-content-start mb-2">
+                                <HomeCard v-for="home in sponsored.data" :home="home"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div v-else class="sponsored_homes">
+                
+            </div>
+            </div>
             <div class="search_wrapper">
                 <div class="search_elements">
                     <div class="row align-items-center align-content-start">
@@ -79,6 +110,9 @@ export default {
             </div>
             <div class="homes_wrapper">
                 <div class="single_home_wrapper">
+                    <h1 class="main_title black text-center py-2">
+                        Scopri l'<span class="fancy">Italia</span>!
+                    </h1>
                     <div class="container px-4 single_home_elements">
                         <div class="row g-5 align-items-center align-content-start">
                             <HomeCard v-for="home in homes.data" :home="home"/>
@@ -87,7 +121,6 @@ export default {
                 </div>
             </div>
         </div>
-    </div>
 </template>
 
 <style lang="scss">
